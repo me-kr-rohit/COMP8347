@@ -1,0 +1,82 @@
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+  background: linear-gradient(180deg, #B2DFFF 0%, rgba(167, 102, 206, 0.20) 50%, rgba(177, 51, 255, 0.00) 100%);
+  background-attachment: fixed !important;
+}
+
+.home-page-logo {
+    width: 180px !important;
+}
+a {
+    text-decoration: none;
+}
+
+.background-white {
+  background: white !important;
+}
+
+.background-off-white {
+    background: #E9E9E9 !important;
+}
+
+.btn-color-primary {
+    background: #0097B2 !important;
+    color: white;
+}
+
+.btn-color-unpublish {
+    background: #000000 !important;
+    color: white;
+}
+
+.btn-color-secondary {
+    background: #898A86;
+    color: white;
+}
+
+.btn-color-success {
+    background: rgba(93, 166, 0, 0.68);
+    color: white;
+ }
+
+ .btn-color-disabled {
+    background: rgba(24, 24, 24, 0.38);
+ }
+
+.register-logo {
+    width: 400px;
+}
+
+hr {
+  border-color: black !important; /* black color */
+  border-width: 2px !important; /* 4px thick border */
+  border-style: solid; /* solid border style */
+  margin-top: 20px; /* 3px margin on top */
+  margin-bottom: 20px; /* 3px margin on bottom */
+}
+
+a {
+    color: black;
+}
+
+.right-arrow {
+    width: 5px;
+    height: 10px;
+}
+
+.tick {
+    width: 10px;
+    height: 10px;
+}
+
+.text-color-black {
+    color: black;
+}
+
+.fw-bold-sm {
+    font-weight: 600 !important;
+}
