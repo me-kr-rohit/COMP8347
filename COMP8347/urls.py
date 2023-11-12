@@ -17,10 +17,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from ForexTrade.views import RegisterView, login_view
+from ForexTrade.views import RegisterView, login_view, exchange_rate_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('register/', RegisterView.as_view(), name='register'),
     path('login/', login_view, name='login'),
+    path('exchange-rate/', exchange_rate_view, name='exchange_rate_view'),
+    path('exchange-rate-input/', RegisterView.as_view(), name='exchange_rate_input'),
 ]
