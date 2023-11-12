@@ -10,13 +10,19 @@
 <body class="w-100 d-flex flex-column justify-content-center align-items-center bb">
 <img src="{% static 'images/logo.png' %}" class="register-logo">
 <div class="w-50 p-5 background-white shadow-lg d-flex flex-column rounded-3 mt-4">
-    <form method="post" class="m-3 d-flex flex-column align-items-center">
+    {% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+    <form method="post" action="{% url 'login' %}"  class="m-3 d-flex flex-column align-items-center">
         {% csrf_token %}
-        <input type="text" name="username" id="username" class="form-control form-control-lg"
-               placeholder="Enter username">
-        <br>
+        <input type="email" id="email" name="email" class="form-control form-control-lg shadow-sm" placeholder="Email ID" required><br>
+
         <input type="password" name="password" id="password" class="form-control form-control-lg"
-               placeholder="Enter password">
+               placeholder="Enter password" required>
         <br>
         <input type="submit" value="Login" class="btn rounded-pill px-5 py-2 btn-color-primary mt-2 fs-5">
     </form>

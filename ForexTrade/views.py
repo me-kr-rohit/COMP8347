@@ -1,5 +1,7 @@
-from django.contrib import messages
 
+
+from django.contrib import messages
+import logging
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.db.models import Q
@@ -62,11 +64,19 @@ class RegisterView(View):
             role_obj = Role.objects.create(name=role)
         try:
             # Get the default Membership object
-            default_membership = Membership.objects.get(pk=3)  # Assuming 3 is the default membership ID
+            default_membership, created = Membership.objects.get_or_create(
+                pk=3,  # Assuming 3 is the default membership ID
+                defaults={'name': 'Default', 'price': 0.0, 'currency': 'USD'}
+            )
         except Membership.DoesNotExist:
             # Handle the case where the membership doesn't exist
             # You can choose to create the membership or raise an Http404 exception or return an error message
             default_membership = None  # Set default_membership to None or handle it according to your application's logic
+
+        if default_membership is None:
+            # Create the default membership if it doesn't exist
+            default_membership = Membership.objects.create(pk=3, name='Default', price=0.0, currency='USD')
+
         try:
             # Create a UserProfile object with the uploaded file
             user_profile = UserProfile.objects.create(
@@ -90,17 +100,23 @@ class RegisterView(View):
 
 
 def login_view(request):
-    if request.user.is_authenticated:
-        return redirect('home')
+  #  if request.user.is_authenticated:
+   #     return redirect('home')
     if request.method == 'POST':
-        username = request.POST['username']
+        email = request.POST['email']
         password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
+
+        user = authenticate(request, email=email, password=password)
+        print(f"Email: {email}, Password: {password},Auth:{user}")
         if user is not None:
             login(request, user)
-            return redirect('home')  # Redirect to the home page after successful login
+            messages.success(request, 'Login successful!')
+            #return redirect('register')  # Redirect to the home page after successful login
         else:
-            error_message = 'Invalid username or password.'
-            return render(request, 'login.html', {'error_message': error_message})
+            error_message = 'Invalid email or password.'
+            messages.error(request, error_message)
+            #return render(request, 'login.html', {'error_message': error_message})
+
+        return render(request, 'login.html')
     else:
         return render(request, 'login.html')

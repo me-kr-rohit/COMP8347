@@ -24,12 +24,12 @@ class Role(TimestampedModel):
     name = models.CharField(max_length=30)
 
     def __str__(self):
-        return f"Role Name: {self.name}"
+        return self.name
 
 
 class UserProfile(TimestampedModel):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    email = models.EmailField(unique=True)  # Custom email field
+    email = models.EmailField(max_length=255, unique=True)
     # New fields
     first_name = models.CharField(max_length=30, default='')  # You can set a default value here
     last_name = models.CharField(max_length=30)
@@ -42,4 +42,4 @@ class UserProfile(TimestampedModel):
     def __str__(self):
         role_name = self.role.name if self.role else "No Role"
         membership_name = self.membership.name if self.membership else "No Membership"
-        return f"Role: {role_name}, Membership: {membership_name},FirstName: {self.first_name}, LastName: {self.last_name}"
+        return f"Role: {role_name}, Membership: {membership_name},FirstName: {self.first_name}, LastName: {self.last_name},Email: {self.email}"
