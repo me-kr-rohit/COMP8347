@@ -1,5 +1,3 @@
-
-
 from django.contrib import messages
 import logging
 from django.contrib.auth import authenticate, login
@@ -29,7 +27,7 @@ class RegisterView(View):
         id_or_photo = request.FILES.get('id_or_photo')
         # Validate the file type
         allowed_file_types = ['image/jpeg', 'image/png', 'application/pdf']
-        username = first_name + " " + last_name
+
         if password != confirm_password:
             context = {
                 "error": "Passwords do not match."
@@ -48,9 +46,6 @@ class RegisterView(View):
                 "error": "Invalid file type. Please upload a valid ID or photo (JPEG, PNG, PDF)."
             }
             return render(request, 'register.html', context=context)
-
-        # Create a new User object
-        user = User.objects.create_user(username=username, email=email, password=password)
 
         try:
             # Get the Role object based on the selected role
@@ -78,7 +73,11 @@ class RegisterView(View):
             default_membership = Membership.objects.create(pk=3, name='Default', price=0.0, currency='USD')
 
         try:
+            # Create a new User object
+            user = User.objects.create(email=email, password=password)
+
             # Create a UserProfile object with the uploaded file
+
             user_profile = UserProfile.objects.create(
                 user=user,
                 first_name=first_name,
@@ -100,22 +99,21 @@ class RegisterView(View):
 
 
 def login_view(request):
-  #  if request.user.is_authenticated:
-   #     return redirect('home')
     if request.method == 'POST':
         email = request.POST['email']
         password = request.POST['password']
 
         user = authenticate(request, email=email, password=password)
-        print(f"Email: {email}, Password: {password},Auth:{user}")
+
+        print(f"Check; {UserProfile.objects.get(email=email)},Email: {email}, Password: {password},Auth:{user}")
         if user is not None:
             login(request, user)
             messages.success(request, 'Login successful!')
-            #return redirect('register')  # Redirect to the home page after successful login
+            # return redirect('register')  # Redirect to the home page after successful login
         else:
             error_message = 'Invalid email or password.'
             messages.error(request, error_message)
-            #return render(request, 'login.html', {'error_message': error_message})
+            # return render(request, 'login.html', {'error_message': error_message})
 
         return render(request, 'login.html')
     else:

@@ -28,9 +28,13 @@ DEBUG = True
 ALLOWED_HOSTS = []
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+LOGIN_URL = 'login'
 
 # Application definition
-
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    # Add any additional authentication backends here
+]
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
