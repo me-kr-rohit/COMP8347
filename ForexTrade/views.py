@@ -4,6 +4,11 @@ from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.views import View
 import requests
+import pandas as pd
+import matplotlib.pyplot as plt
+from io import BytesIO
+import base64
+from datetime import datetime, timedelta
 
 from ForexTrade.models import Role, UserProfile
 
@@ -89,6 +94,61 @@ def exchange_rate_view(request):
         }
         print("context:", context)
         return render(request, 'exchange_rate.html', context)
+    else:
+        # Handle the API error
+        return render(request, 'error.html')
+
+
+def timeseries_view(request):
+    # API endpoint
+    api_url = 'https://api.fxratesapi.com/timeseries'
+    end_date = datetime.utcnow().replace(microsecond=0).isoformat() + 'Z'
+    start_date = (datetime.utcnow() - timedelta(days=365)).replace(microsecond=0).isoformat() + 'Z'
+    currency = 'CAD'
+    accuracy = 'day'
+
+    # Parameters for the API request
+    params = {
+        'start_date': start_date,
+        'end_date': end_date,
+        'currencies': currency,
+        'accuracy': accuracy,
+    }
+
+    # Make the API call
+    response = requests.get(api_url, params=params)
+
+    # Check if the API call was successful
+    if response.status_code == 200:
+        rates_data = response.json()["rates"]
+
+        dates = [datetime.fromisoformat(date[:-1]) for date in rates_data.keys()]
+        rates = [rate_data['CAD'] for rate_data in rates_data.values()]
+
+        # Plot the graph
+        plt.figure(figsize=(10, 6))
+        # plt.plot(dates, rates, label="Exchange Rate")
+        plt.plot(dates, rates, label="Exchange Rate", marker='o', linestyle='-')
+        plt.title('Exchange Rate Time Series')
+        plt.xlabel('Date')
+        plt.ylabel('Exchange Rate')
+        plt.xticks(rotation=45)
+        plt.legend()
+        plt.tight_layout()
+        plt.grid(True)
+
+        # Save the plot to a BytesIO object
+        buffer = BytesIO()
+        plt.savefig(buffer, format='png')
+        buffer.seek(0)
+        plt.close()
+
+        # Encode the plot as base64
+        plot_data = base64.b64encode(buffer.read()).decode('utf-8')
+        buffer.close()
+
+        context = {'plot_data': plot_data}
+        return render(request, 'timeseries.html', context)
     else:
         # Handle the API error
         return render(request, 'error.html')
