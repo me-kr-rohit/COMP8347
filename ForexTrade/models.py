@@ -28,6 +28,11 @@ class UserProfile(TimestampedModel):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     role = models.ForeignKey(Role, on_delete=models.CASCADE)
     membership = models.ForeignKey(Membership, on_delete=models.SET_NULL, null=True, default=3)
+    id_or_photo = models.FileField(upload_to='user_uploads/', null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"'''Username: {self.user.username}, Role: {self.role.name},''' Membership: {self.membership.name}"
+        role_name = self.role.name if self.role else "No Role"
+        membership_name = self.membership.name if self.membership else "No Membership"
+        return f"Username: {self.user.username}, Role: {role_name}, Membership: {membership_name}"

@@ -11,7 +11,13 @@
 <body class="w-100 d-flex flex-column justify-content-center align-items-center">
 <img src="{% static 'images/logo.png' %}" class="register-logo" alt="Company Logo">
 <div class="w-50 p-5 background-white shadow-lg rounded-3 mt-4">
-    <form method="post" class="m-3 d-flex flex-column align-items-center">
+    {% if success_message %}
+    <div class="alert alert-success">
+        {{ success_message }}
+    </div>
+{% endif %}
+
+    <form method="post" class="m-3 d-flex flex-column align-items-center" enctype="multipart/form-data">
         {% csrf_token %}
         <input type="text" id="username" name="username" class="form-control form-control-lg shadow-sm"
                placeholder="username"><br>
@@ -25,7 +31,8 @@
             <option value="student">Student</option>
             <option value="teacher">Teacher</option>
         </select><br>
-
+ <input type="file" name="id_or_photo" accept="image/*,application/pdf" class="form-control form-control-lg shadow-sm" required>
+          <small class="text-muted">Upload a valid ID or photo (JPEG, PNG, PDF).</small>
         <input type="submit" value="Sign up" class="btn rounded-pill px-5 py-2 btn-color mt-2 fs-5 btn-color-primary">
     </form>
     <a class="fs-5" href="{% url 'login' %}">Already have an account?</a>
