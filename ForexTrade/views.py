@@ -17,20 +17,30 @@ class RegisterView(View):
         return render(request, 'register.html')
 
     def post(self, request):
-        username = request.POST['username']
+
+        first_name = request.POST['first_name']
+        last_name = request.POST['last_name']
         email = request.POST['email']
         password = request.POST['password']
+        confirm_password = request.POST['confirm_password']
         role = request.POST['role']
         id_or_photo = request.FILES.get('id_or_photo')
         # Validate the file type
         allowed_file_types = ['image/jpeg', 'image/png', 'application/pdf']
-        existing_user = User.objects.filter(Q(username=username) | Q(email=email)).first()
+        username = first_name + " " + last_name
+        if password != confirm_password:
+            context = {
+                "error": "Passwords do not match."
+            }
+            return render(request, 'register.html', context=context)
+        existing_user = User.objects.filter(Q(email=email)).first()
         context = {"error": None}
         if existing_user:
             context = {
-                "error": "username or email already exists!"
+                "error": "Email already exists!"
             }
             return render(request, 'register.html', context=context)
+
         if id_or_photo and id_or_photo.content_type not in allowed_file_types:
             context = {
                 "error": "Invalid file type. Please upload a valid ID or photo (JPEG, PNG, PDF)."
@@ -61,6 +71,9 @@ class RegisterView(View):
             # Create a UserProfile object with the uploaded file
             user_profile = UserProfile.objects.create(
                 user=user,
+                first_name=first_name,
+                last_name=last_name,
+                email=email,
                 role=role_obj,  # Set the role object here
                 membership=default_membership,
                 id_or_photo=id_or_photo,
@@ -74,7 +87,6 @@ class RegisterView(View):
 
             # Clear the form by rendering the registration page again
         return render(request, 'register.html', {'success_message': 'Registration successful!'})
-
 
 
 def login_view(request):
