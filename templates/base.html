@@ -21,6 +21,8 @@
             background-color: #333;
             padding: 10px 0;
             width: 100%;
+            display: flex;
+            align-items: center; /* Center items vertically */
         }
 
         ul {
@@ -28,7 +30,6 @@
             margin: 0;
             padding: 0;
             display: flex;
-            justify-content: center;
         }
 
         li {
@@ -51,14 +52,26 @@
             max-width: 800px; /* Adjust as needed */
             margin-top: 20px;
         }
+
+        /* Add this style for the "Home" list item */
+        li:first-child {
+            margin-right: auto;
+        }
     </style>
 </head>
 <body>
     <nav>
         <ul>
             <li><a href="{% url 'home' %}">Home</a></li>
-            <li><a href="{% url 'register' %}">Register</a></li>
-            <li><a href="{% url 'login' %}">Login</a></li>
+            {% if user.is_authenticated %}
+               <!-- Add a link for logout when the user is authenticated -->
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                </li>
+            {% else %}
+                <li><a href="{% url 'register' %}">Register</a></li>
+                <li><a href="{% url 'login' %}">Login</a></li>
+            {% endif %}
             <!-- Add other navigation links as needed -->
         </ul>
     </nav>

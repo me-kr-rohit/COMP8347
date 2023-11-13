@@ -123,7 +123,9 @@
                 <input type="file" name="id_or_photo" accept="image/*,application/pdf" class="form-input file-input" required>
                 <small class="text-muted">Upload a valid ID or photo (JPEG, PNG, PDF).</small>
             </div>
-
+{% if error %}
+    <p style="color: red;">{{ error }}</p>
+  {% endif %}
             <input type="submit" value="Sign up" class="submit-btn">
         </form>
 
