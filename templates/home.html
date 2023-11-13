@@ -12,22 +12,36 @@
           <li class="nav-item active">
             <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
           </li>
+
+          <!-- Nested dropdowns for authenticated users -->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="servicesDropdown" role="button" data-toggle="collapse" data-target="#servicesCollapse" aria-haspopup="true" aria-expanded="false">
+              Services
+            </a>
+            <div class="collapse" id="servicesCollapse">
+              <div class="dropdown-menu" aria-labelledby="servicesDropdown">
+                <a class="dropdown-item" href="#">Current Trends</a>
+                <a class="dropdown-item" href="#">Charts Patterns</a>
+                <a class="dropdown-item" href="#">Exchange Rate</a>
+              </div>
+            </div>
+          </li>
+
+          <!-- Add other dropdowns as needed -->
+
+          <li class="nav-item">
+            <a class="nav-link" href="#">About Us</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="#">Offers</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="#">Quick Access</a>
+          </li>
         {% endif %}
       </ul>
     </div>
   </nav>
-
-  {% if user.is_authenticated %}
-    <!-- Content for logged-in users -->
-    <div class="container mt-4">
-      <h2>Welcome, {{ user.username }}!</h2>
-      <!-- Add other content for authenticated users -->
-    </div>
-  {% else %}
-    <!-- Content for non-authenticated users -->
-    <div class="container mt-4">
-      <h2>Explore Forex/Crypto Trading</h2>
-      <!-- Add content for non-authenticated users -->
-    </div>
-  {% endif %}
 {% endblock %}
