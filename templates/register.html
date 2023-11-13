@@ -1,61 +1,134 @@
-{% load django_bootstrap5 %}
+
+<!-- templates/register.html -->
+
+{% extends 'base.html' %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+    <style>
+        /* Add your custom CSS styles here */
+        .register-logo {
+            max-width: 100%;
+            padding: 10px;
+            height: auto;
+            margin: 0 auto; /* This will center the image horizontally */
+            display: block; /* Ensure it's treated as a block-level element */
+        }
+
+        .form-container {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            font-size: 18px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            font-size: 18px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+
+        .form-input:focus {
+            border-color: #007bff;
+        }
+
+        .file-input {
+            font-size: 16px;
+        }
+
+        .submit-btn {
+            padding: 12px 20px;
+            font-size: 18px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .submit-btn:hover {
+            background-color: #45a049;
+        }
+
+        .links {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+    </style>
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Register</title>
-    {% bootstrap_css %}
-    <link href="{% static 'css/style.css' %}" rel="stylesheet">
-</head>
-<body class="w-100 d-flex flex-column justify-content-center align-items-center">
-<img src="{% static 'images/logo.png' %}" class="register-logo" alt="Company Logo">
-<div class="w-50 p-5 background-white shadow-lg rounded-3 mt-4">
-    {% if success_message %}
-    <div class="alert alert-success">
-        {{ success_message }}
+    <img src="{% static 'images/logo.png' %}" class="register-logo" alt="Company Logo">
+    <div class="form-container">
+        {% if success_message %}
+            <div class="alert alert-success">
+                {{ success_message }}
+            </div>
+        {% endif %}
+
+        <form method="post" class="m-3" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="first_name" class="form-label">First Name</label>
+                <input type="text" id="first_name" name="first_name" class="form-input"placeholder="First Name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="last_name" class="form-label">Last Name</label>
+                <input type="text" id="last_name" name="last_name" class="form-input"placeholder="Last Name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email" class="form-label">Email ID</label>
+                <input type="email" id="email" name="email" class="form-input" placeholder="Email ID" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" id="password" name="password" class="form-input"placeholder="Password" required>
+            </div>
+
+            <div class="form-group">
+                <label for="confirm_password" class="form-label">Confirm Password</label>
+                <input type="password" id="confirm_password" name="confirm_password" class="form-input" placeholder="Confirm Password" required>
+            </div>
+
+            <div class="form-group">
+                <label for="role" class="form-label">Role</label>
+                <select id="role" name="role" class="form-input">
+                    <option value="student">Student</option>
+                    <option value="teacher">Teacher</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="id_or_photo" class="form-label">Upload ID or Photo</label>
+                <input type="file" name="id_or_photo" accept="image/*,application/pdf" class="form-input file-input" required>
+                <small class="text-muted">Upload a valid ID or photo (JPEG, PNG, PDF).</small>
+            </div>
+
+            <input type="submit" value="Sign up" class="submit-btn">
+        </form>
+
+        <div class="links">
+            <a class="fs-5" href="{% url 'login' %}">Already have an account?</a>
+        </div>
     </div>
-{% endif %}
-
-    <form method="post" class="m-3 d-flex flex-column align-items-center" enctype="multipart/form-data">
-        {% csrf_token %}
-        <!-- FirstName -->
-        <input type="text" id="first_name" name="first_name" class="form-control form-control-lg shadow-sm"
-               placeholder="First Name" required><br>
-
-        <!-- LastName -->
-        <input type="text" id="last_name" name="last_name" class="form-control form-control-lg shadow-sm"
-               placeholder="Last Name" required><br>
-
-
-        <input type="email" id="email" name="email" class="form-control form-control-lg shadow-sm" placeholder="Email ID" required><br>
-
-        <input type="password" id="password" name="password" class="form-control form-control-lg shadow-sm"
-               placeholder="Password" required><br>
-         <!-- ConfirmPassword -->
-        <input type="password" id="confirm_password" name="confirm_password" class="form-control form-control-lg shadow-sm"
-               placeholder="Confirm Password" required><br>
-
-
-        <select id="role" name="role" class="form-select form-control-lg shadow-sm">
-            <option value="student">Student</option>
-            <option value="teacher">Teacher</option>
-        </select><br>
- <input type="file" name="id_or_photo" accept="image/*,application/pdf" class="form-control form-control-lg shadow-sm" required>
-          <small class="text-muted">Upload a valid ID or photo (JPEG, PNG, PDF).</small>
-        <input type="submit" value="Sign up" class="btn rounded-pill px-5 py-2 btn-color mt-2 fs-5 btn-color-primary">
-    </form>
-    <a class="fs-5" href="{% url 'login' %}">Already have an account?</a>
-</div>
-{% bootstrap_javascript %}
-{% if error %}
-    <script>
-    function showAlert() {
-        const errorMessage = "{{ error }}";
-        alert(errorMessage);
-    }
-    window.onload = showAlert;
-    </script>
-{% endif %}
-</body>
-</html>
+{% endblock %}

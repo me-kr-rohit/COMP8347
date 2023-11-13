@@ -1,36 +1,104 @@
-{% load django_bootstrap5 %}
-{% load static %}
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Login</title>
-    {% bootstrap_css %}
-    <link href="{% static 'css/style.css' %}" rel="stylesheet">
-</head>
-<body class="w-100 d-flex flex-column justify-content-center align-items-center bb">
-<img src="{% static 'images/logo.png' %}" class="register-logo">
-<div class="w-50 p-5 background-white shadow-lg d-flex flex-column rounded-3 mt-4">
-    {% if messages %}
-  <ul class="messages">
-    {% for message in messages %}
-      <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-    {% endfor %}
-  </ul>
-{% endif %}
-    <form method="post" action="{% url 'login' %}"  class="m-3 d-flex flex-column align-items-center">
-        {% csrf_token %}
-        <input type="email" id="email" name="email" class="form-control form-control-lg shadow-sm" placeholder="Email ID" required><br>
+<!-- templates/login.html -->
 
-        <input type="password" name="password" id="password" class="form-control form-control-lg"
-               placeholder="Enter password" required>
-        <br>
-        <input type="submit" value="Login" class="btn rounded-pill px-5 py-2 btn-color-primary mt-2 fs-5">
+{% extends 'base.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        display: flex;
+        align-items: center;
+
+        height: 100vh;
+        margin: 0;
+    }
+
+    .register-logo {
+        width: 100px; /* adjust the width as needed */
+        height: auto;
+        margin-bottom: 20px;
+    }
+
+    .login-container {
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        width: 300px;
+        text-align: center;
+    }
+
+    .login-form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 16px;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        margin: 8px 0;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        outline: none;
+    }
+
+    .btn {
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        text-align: center;
+    }
+
+    .btn:hover {
+        background-color: #0056b3;
+    }
+
+    .links {
+        margin-top: 10px;
+        font-size: 14px;
+    }
+
+    .messages {
+        list-style-type: none;
+        padding: 0;
+        color: #d9534f; /* Danger color */
+    }
+</style>
+{% load static %}
+<img src="{% static 'images/logo.png' %}" class="register-logo" alt="Company Logo">
+<div class="login-container">
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <form method="post" action="{% url 'login' %}" class="login-form">
+        {% csrf_token %}
+        <label for="email">Email ID:</label>
+        <input type="email" id="email" name="email" class="form-control" placeholder="Email ID" required>
+
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password" class="form-control" placeholder="Enter password" required>
+
+        <input type="submit" value="Login" class="btn mt-2">
     </form>
-    <div class="d-flex flex-row justify-content-between">
-{#        <a class="fs-5" href="{% url 'forgot_password' %}">Forgot Password?</a>#}
-{#        <a class="fs-5" href="{% url 'register' %}">Register</a>#}
+    <div class="links">
+        {#<a href="{% url 'forgot_password' %}">Forgot Password?</a>#}
+        {#<a href="{% url 'register' %}">Register</a>#}
     </div>
 </div>
-{% bootstrap_javascript %}
-</body>
-</html>
+
+{% endblock %}

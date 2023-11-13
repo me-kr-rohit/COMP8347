@@ -19,9 +19,10 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
 
-from ForexTrade.views import RegisterView, login_view
+from ForexTrade.views import RegisterView, login_view, home_view
 
 urlpatterns = [
+    path('', home_view, name='home'),
     path('admin/', admin.site.urls),
     path('register/', RegisterView.as_view(), name='register'),
     path('login/', login_view, name='login'),

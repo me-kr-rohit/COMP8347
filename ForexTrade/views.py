@@ -11,6 +11,10 @@ from django.core.exceptions import ValidationError
 from ForexTrade.models import Role, UserProfile, Membership
 
 
+def home_view(request):
+    return render(request, 'home.html')
+
+
 # Create your views here.
 class RegisterView(View):
     def get(self, request):
