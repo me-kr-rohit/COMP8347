@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Frequently Asked Questions</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+        ol {
+            list-style-type: none;
+            counter-reset: my-counter;
+            padding: 0;
+        }
+
+        li {
+            counter-increment: my-counter;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            display: inline;
+            font-size: x-large;
+            color: navy; /* Set text color to blue */
+            margin: 0; /* Remove default margin for <h1> */
+        }
+
+        li::before {
+            content: counter(my-counter) ". ";
+            font-size: x-large;
+            font-weight: bold;
+            margin-right: 5px;
+            color: navy; /* Set ordered number color to blue */
+        }
+        p {
+            font-size: x-large;
+        }
+        header {
+            text-align: center;
+            background-color: lightblue;
+            color: white;
+            padding: 10px;
+        }
+         h2 {
+            color: #333;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <h2>Frequently Asked Questions</h2>
+    </header>
+    <ol>
+        <li>
+            <h1>Is there any mark-up on the currency conversion rate shown?</h1>
+            <p>No</p>
+        </li>
+        <li>
+            <h1>What currencies are available for exchange ?</h1>
+            <p>All major or exotic currencies are available on the website. List of currencies can be referred to through our full rate card.</p>
+        </li>
+        <li>
+            <h1>Is there any minimum order value for placing currency notes order?</h1>
+            <p>Yes, the order value must be at a minimum of CAD 150.</p>
+        </li>
+        <li>
+            <h1>Can I buy 2 or more currencies in single order?</h1>
+            <p>No</p>
+        </li>
+    </ol>
+</body>
+</html>
