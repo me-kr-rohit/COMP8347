@@ -126,3 +126,17 @@ class LogoutView:
         logout(request)  # Call the logout function to log out the user
         messages.success(request, 'Logout successful!')
         return redirect('home')  # Redirect to the home page after successful logout
+
+# Abhirup --Start
+def about(request):
+    return render(request, 'aboutUs.html')
+
+def faq(request):
+    return render(request, 'faq.html')
+
+def offers(request):
+    return render(request, 'offers.html')
+
+def contact(request):
+    return render(request, 'contactUs.html')
+# Abhirup --End
