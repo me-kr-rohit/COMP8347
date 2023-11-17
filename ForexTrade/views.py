@@ -127,7 +127,7 @@ class LogoutView:
         messages.success(request, 'Logout successful!')
         return redirect('home')  # Redirect to the home page after successful logout
 
-# Abhirup --Start
+# Abhirup Start
 def about(request):
     return render(request, 'aboutUs.html')
 
@@ -139,4 +139,4 @@ def offers(request):
 
 def contact(request):
     return render(request, 'contactUs.html')
-# Abhirup --End
+# Abhirup End
