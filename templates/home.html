@@ -1,47 +1,223 @@
 {% extends 'base.html' %}
 
 {% block content %}
+  <style>
+    body {
+      background-color: #f8f9fa;
+      font-family: 'Roboto', sans-serif;
+    }
+
+    .navbar {
+      background-color: #343a40;
+      color: white;
+      padding: 20px 0;
+      border-radius: 10px; /* Add border-radius for rounded corners */
+    }
+
+    .navbar-brand {
+      font-size: 1.8rem;
+      color: #ffffff; /* Change the color of the navbar brand */
+    }
+
+    .navbar-nav {
+      display: flex;
+      align-items: center;
+    }
+
+    .navbar-nav .nav-link {
+      color: #ffffff; /* Change the color of the navbar links */
+      margin-right: 15px; /* Adjust the right margin as needed */
+    }
+
+    .navbar-toggler-icon {
+      background-color: #ffffff; /* Change the color of the navbar toggler icon */
+    }
+
+    .navbar-toggler {
+      border-color: #ffffff; /* Change the border color of the navbar toggler button */
+    }
+
+    .navbar-nav .nav-item.active .nav-link {
+      color: #007bff;
+    }
+
+    /* Additional styles for a more stylish look */
+    .navbar-nav .nav-item {
+      margin-right: 15px;
+    }
+
+    .navbar-nav .nav-item:last-child {
+      margin-right: 0;
+    }
+
+    .navbar-nav .nav-link:hover {
+      color: #007bff;
+    }
+
+    .navbar-toggler-icon:hover {
+      background-color: #007bff;
+    }
+
+    .card {
+      background-color: #ffffff;
+      border-radius: 15px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin-top: 20px;
+      display: none; /* Initially hide the card */
+    }
+
+    .card-body {
+      padding: 30px;
+    }
+
+    h2 {
+      color: #007bff;
+    }
+
+    label {
+      font-weight: bold;
+    }
+
+    select,
+    input {
+      margin-bottom: 15px;
+    }
+
+    button {
+      background-color: #007bff;
+      color: #ffffff;
+      border: none;
+      border-radius: 5px;
+      padding: 12px 25px;
+      cursor: pointer;
+      font-size: 1.2rem;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    #defaultMessage {
+      font-size: 1.2rem;
+      color: #868e96;
+      margin-top: 20px;
+      text-align: center;
+    }
+
+  </style>
+
+  <script>
+    // Function to toggle the visibility of the card based on the selected option
+    function toggleCardVisibility() {
+      var selectedOption = document.getElementById("servicesDropdown").value;
+      var card = document.getElementById("orderCard");
+        var defaultMessage = document.getElementById("defaultMessage");
+
+        if (selectedOption === "#exchangeRate") {
+        card.style.display = "block";
+        defaultMessage.style.display = "none";
+      } else {
+        card.style.display = "none";
+        defaultMessage.style.display = "block";
+      }
+      // Show the card if "Exchange Rate" is selected, hide it otherwise
+     // card.style.display = (selectedOption === "#exchangeRate") ? "block" : "none";
+    }
+  </script>
+
   <!-- Navigation Bar -->
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Forex/Crypto Trading</a>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ml-auto">
-        {% if user.is_authenticated %}
-          <!-- If the user is logged in, show the content -->
-          <li class="nav-item active">
-            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-          </li>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav ml-auto">
+      {% if user.is_authenticated %}
+        <!-- If the user is logged in, show the content -->
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        </li>
 
-          <!-- Nested dropdowns for authenticated users -->
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="servicesDropdown" role="button" data-toggle="collapse" data-target="#servicesCollapse" aria-haspopup="true" aria-expanded="false">
-              Services
-            </a>
-            <div class="collapse" id="servicesCollapse">
-              <div class="dropdown-menu" aria-labelledby="servicesDropdown">
-                <a class="dropdown-item" href="#">Current Trends</a>
-                <a class="dropdown-item" href="#">Charts Patterns</a>
-                <a class="dropdown-item" href="#">Exchange Rate</a>
-              </div>
-            </div>
-          </li>
 
-          <!-- Add other dropdowns as needed -->
 
-          <li class="nav-item">
-            <a class="nav-link" href="#">About Us</a>
-          </li>
+        <!-- Nested dropdowns for authenticated users -->
+        <li class="nav-item">
+          <label for="servicesDropdown" class="nav-link" style="margin-left: 20px;">Services</label>
+          <div class="d-flex flex-column">
+            <select class="form-control" id="servicesDropdown" name="servicesDropdown" onchange="toggleCardVisibility();">
+              <option value="#" selected disabled>Select a Service</option>
+              <option value="#exchangeRate">Exchange Rate</option>
+              <option value="#currentTrend">Current Trends</option>
+              <option value="#chartPattern">Charts Patterns</option>
+              <!-- Add more options as needed -->
+            </select>
+          </div>
+        </li>
 
-          <li class="nav-item">
-            <a class="nav-link" href="#">Offers</a>
-          </li>
+        <!-- Add spacing between menu items -->
+        <li class="nav-item">
+          <a class="nav-link" href="#" style="margin-left: 20px;">About Us</a>
+        </li>
 
-          <li class="nav-item">
-            <a class="nav-link" href="#">Quick Access</a>
-          </li>
-        {% endif %}
-      </ul>
+        <li class="nav-item">
+          <a class="nav-link" href="#" style="margin-left: 20px;">Offers</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="#" style="margin-left: 20px;">Quick Access</a>
+        </li>
+      {% endif %}
+    </ul>
+  </div>
+</nav>
+
+  <div class="container mt-4">
+  <!-- Default message when no service is selected -->
+    <p id="defaultMessage">Please select any service to proceed.</p>
+
+       <!-- Place Your Order card -->
+    <div class="card" id="orderCard" style="display: none;">
+      <div class="card-body">
+        <h2 class="card-title">Place Your Order</h2>
+        <form method="post">
+          {% csrf_token %}
+
+          <div class="form-group">
+            <label for="currencyYouHave">Currency You Have</label>
+            <select class="form-control" id="currencyYouHave" name="currencyYouHave" required>
+              <option value="CAD">Canadian Dollar (CAD)</option>
+              <!-- Add more options as needed -->
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="currencyYouWant">Currency You Want</label>
+            <select class="form-control" id="currencyYouWant" name="currencyYouWant" required>
+              <option value="USD">United States Dollar (USD)</option>
+              <option value="EUR">Euro (EUR)</option>
+              <option value="GBP">British Pound Sterling (GBP)</option>
+              <option value="JPY">Japanese Yen (JPY)</option>
+              <option value="AUD">Australian Dollar (AUD)</option>
+              <option value="CHF">Swiss Franc (CHF)</option>
+              <option value="CNY">Chinese Yuan (CNY)</option>
+              <option value="SEK">Swedish Krona (SEK)</option>
+              <option value="NZD">New Zealand Dollar (NZD)</option>
+              <option value="INR">Indian Rupee (INR)</option>
+              <!-- Add more options as needed -->
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="amount">Amount</label>
+            <input type="number" class="form-control" id="amount" name="amount" required>
+          </div>
+
+          <div class="form-group">
+            <label for="convertedAmount">Converted Amount</label>
+            <input type="text" class="form-control" id="convertedAmount" name="convertedAmount" readonly>
+          </div>
+
+          <button type="submit" class="btn btn-primary">Submit Order</button>
+        </form>
+      </div>
     </div>
-  </nav>
+  </div>
 {% endblock %}

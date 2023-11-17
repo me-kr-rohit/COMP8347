@@ -9,7 +9,10 @@ from django.utils import timezone
 from django.views import View
 from django.core.exceptions import ValidationError
 
+
 from ForexTrade.models import Role, UserProfile, Membership
+# views.py
+from django.shortcuts import render
 
 
 def home_view(request):
@@ -126,3 +129,4 @@ class LogoutView:
         logout(request)  # Call the logout function to log out the user
         messages.success(request, 'Logout successful!')
         return redirect('home')  # Redirect to the home page after successful logout
+
