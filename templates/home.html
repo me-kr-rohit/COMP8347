@@ -137,7 +137,6 @@
         </li>
 
 
-
         <!-- Nested dropdowns for authenticated users -->
         <li class="nav-item">
           <label for="servicesDropdown" class="nav-link" style="margin-left: 20px;">Services</label>
@@ -152,18 +151,30 @@
           </div>
         </li>
 
-        <!-- Add spacing between menu items -->
-        <li class="nav-item">
-          <a class="nav-link" href="#" style="margin-left: 20px;">About Us</a>
-        </li>
+      <!-- Abhirup Start -->
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'about' %}">About Us</a>
+                </li>
 
-        <li class="nav-item">
-          <a class="nav-link" href="#" style="margin-left: 20px;">Offers</a>
-        </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'offers' %}">Offers</a>
+                </li>
+                <!-- Abhirup End -->
 
-        <li class="nav-item">
-          <a class="nav-link" href="#" style="margin-left: 20px;">Quick Access</a>
-        </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Quick Access</a>
+                </li>
+
+                <!-- Abhirup Start -->
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'faq' %}">FAQs</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'contactUs' %}">Contact Us</a>
+                </li>
+                <!-- Abhirup End -->
+
       {% endif %}
     </ul>
   </div>
