@@ -33,5 +33,6 @@ urlpatterns = [
     path('offer/', views.offers, name='offers'),
     path('contact/', views.contact, name='contactUs'),
 
+
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
