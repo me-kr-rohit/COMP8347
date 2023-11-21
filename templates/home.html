@@ -135,6 +135,7 @@
         <li class="nav-item active">
           <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
         </li>
+
         <!-- Nested dropdowns for authenticated users -->
         <li class="nav-item">
           <label for="servicesDropdown" class="nav-link" style="margin-left: 20px;">Services</label>
@@ -148,8 +149,7 @@
             </select>
           </div>
         </li>
-
-      <!-- Abhirup Start -->
+   <!-- Abhirup Start -->
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'about' %}">About Us</a>
                 </li>
@@ -172,21 +172,6 @@
                     <a class="nav-link" href="{% url 'contactUs' %}">Contact Us</a>
                 </li>
                 <!-- Abhirup End -->
-
-
-        <!-- Nested dropdowns for authenticated users -->
-        <li class="nav-item">
-          <label for="servicesDropdown" class="nav-link" style="margin-left: 20px;">Services</label>
-          <div class="d-flex flex-column">
-            <select class="form-control" id="servicesDropdown" name="servicesDropdown" onchange="toggleCardVisibility();">
-              <option value="#" selected disabled>Select a Service</option>
-              <option value="#exchangeRate">Exchange Rate</option>
-              <option value="#currentTrend">Current Trends</option>
-              <option value="#chartPattern">Charts Patterns</option>
-              <!-- Add more options as needed -->
-            </select>
-          </div>
-        </li>
 
 
       {% endif %}
