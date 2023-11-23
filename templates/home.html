@@ -1,233 +1,260 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <style>
+<style>
     body {
-      background-color: #f8f9fa;
-      font-family: 'Roboto', sans-serif;
+        background-color: #f8f9fa;
+        font-family: 'Roboto', sans-serif;
     }
-
     .navbar {
-      background-color: #343a40;
-      color: white;
-      padding: 20px 0;
-      border-radius: 10px; /* Add border-radius for rounded corners */
-    }
-
-    .navbar-brand {
-      font-size: 1.8rem;
-      color: #ffffff; /* Change the color of the navbar brand */
+        background-color: #343a40;
+        color: white;
+        padding: 20px 0;
+        border-radius: 10px; /* Add border-radius for rounded corners */
     }
 
     .navbar-nav {
-      display: flex;
-      align-items: center;
+        display: flex;
+        align-items: center;
     }
 
     .navbar-nav .nav-link {
-      color: #ffffff; /* Change the color of the navbar links */
-      margin-right: 15px; /* Adjust the right margin as needed */
+        color: #ffffff; /* Change the color of the navbar links */
+        margin-right: 15px; /* Adjust the right margin as needed */
     }
 
     .navbar-toggler-icon {
-      background-color: #ffffff; /* Change the color of the navbar toggler icon */
-    }
-
-    .navbar-toggler {
-      border-color: #ffffff; /* Change the border color of the navbar toggler button */
+        background-color: #ffffff; /* Change the color of the navbar toggler icon */
     }
 
     .navbar-nav .nav-item.active .nav-link {
-      color: #007bff;
+        color: #007bff;
     }
 
     /* Additional styles for a more stylish look */
     .navbar-nav .nav-item {
-      margin-right: 15px;
+        margin-right: 15px;
     }
 
     .navbar-nav .nav-item:last-child {
-      margin-right: 0;
+        margin-right: 0;
     }
 
     .navbar-nav .nav-link:hover {
-      color: #007bff;
+        color: #007bff;
     }
 
     .navbar-toggler-icon:hover {
-      background-color: #007bff;
+        background-color: #007bff;
     }
 
     .card {
-      background-color: #ffffff;
-      border-radius: 15px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      margin-top: 20px;
-      display: none; /* Initially hide the card */
+        background-color: #ffffff;
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin-top: 20px;
+        display: none; /* Initially hide the card */
     }
 
     .card-body {
-      padding: 30px;
+        padding: 30px;
     }
 
     h2 {
-      color: #007bff;
+        color: #007bff;
     }
 
     label {
-      font-weight: bold;
+        font-weight: bold;
     }
 
     select,
     input {
-      margin-bottom: 15px;
+        margin-bottom: 15px;
     }
 
     button {
-      background-color: #007bff;
-      color: #ffffff;
-      border: none;
-      border-radius: 5px;
-      padding: 12px 25px;
-      cursor: pointer;
-      font-size: 1.2rem;
+        background-color: #007bff;
+        color: #ffffff;
+        border: none;
+        border-radius: 5px;
+        padding: 12px 25px;
+        cursor: pointer;
+        font-size: 1.2rem;
     }
 
     button:hover {
-      background-color: #0056b3;
+        background-color: #0056b3;
     }
 
     #defaultMessage {
-      font-size: 1.2rem;
-      color: #868e96;
-      margin-top: 20px;
-      text-align: center;
+        font-size: 1.2rem;
+        color: #868e96;
+        margin-top: 20px;
+        text-align: center;
     }
 
-  </style>
+    /* Adjusted style to stretch the navbar */
+    .navbar {
+        width: 100%;
+    }
 
-  <script>
+    .container {
+        width: 100%;
+        padding-right: 15px;
+        padding-left: 15px;
+        margin-right: auto;
+        margin-left: auto;
+    }
+</style>
+
+<script>
     // Function to toggle the visibility of the card based on the selected option
     function toggleCardVisibility() {
-      var selectedOption = document.getElementById("servicesDropdown").value;
-      var card = document.getElementById("orderCard");
+        var selectedOption = document.getElementById("servicesDropdown").value;
+        var card = document.getElementById("orderCard");
         var defaultMessage = document.getElementById("defaultMessage");
 
-        if (selectedOption === "#exchangeRate") {
-        card.style.display = "block";
-        defaultMessage.style.display = "none";
-      } else {
-        card.style.display = "none";
-        defaultMessage.style.display = "block";
-      }
-      // Show the card if "Exchange Rate" is selected, hide it otherwise
-     // card.style.display = (selectedOption === "#exchangeRate") ? "block" : "none";
+        if (selectedOption !== "#selectService") {
+            card.style.display = "block";
+            defaultMessage.style.display = "none";
+        } else {
+            card.style.display = "none";
+            defaultMessage.style.display = "block";
+        }
     }
-  </script>
+</script>
 
-  <!-- Navigation Bar -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-
-  <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav ml-auto">
-      {% if user.is_authenticated %}
-        <!-- If the user is logged in, show the content -->
-        <li class="nav-item active">
-          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-        </li>
-
-        <!-- Nested dropdowns for authenticated users -->
-        <li class="nav-item">
-          <label for="servicesDropdown" class="nav-link" style="margin-left: 20px;">Services</label>
-          <div class="d-flex flex-column">
-            <select class="form-control" id="servicesDropdown" name="servicesDropdown" onchange="toggleCardVisibility();">
-              <option value="#" selected disabled>Select a Service</option>
-              <option value="#exchangeRate">Exchange Rate</option>
-              <option value="#currentTrend">Current Trends</option>
-              <option value="#chartPattern">Charts Patterns</option>
-              <!-- Add more options as needed -->
-            </select>
-          </div>
-        </li>
-   <!-- Abhirup Start -->
+{% if user.is_authenticated %}
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark " style="width: max-content;">
+    <div class="container"> <!-- Add a container to ensure full width -->
+        <span class="navbar-toggler-icon"></span>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <!-- Your existing content -->
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'about' %}">About Us</a>
                 </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'offers' %}">Offers</a>
-                </li>
-                <!-- Abhirup End -->
-
                 <li class="nav-item">
                     <a class="nav-link" href="#">Quick Access</a>
                 </li>
-
-                <!-- Abhirup Start -->
+                <li class="nav-item">
+                    <label for="servicesDropdown" class="nav-link" style="margin-left: 20px;">Services</label>
+                    <div class="d-flex flex-column">
+                        <select class="form-control" id="servicesDropdown" name="servicesDropdown" onchange="toggleCardVisibility();">
+                            <option value="#selectService" selected disabled>Select a Service</option>
+                            <option value="#exchangeRate">Exchange Rate</option>
+                            <option value="#currentTrend">Current Trends</option>
+                            <option value="#chartPattern">Charts Patterns</option>
+                            <!-- Add more options as needed -->
+                        </select>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'offers' %}">Offers</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'faq' %}">FAQs</a>
                 </li>
-
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'contactUs' %}">Contact Us</a>
                 </li>
-                <!-- Abhirup End -->
-
-
-      {% endif %}
-    </ul>
-  </div>
+            </ul>
+        </div>
+    </div>
 </nav>
 
-  <div class="container mt-4">
-  <!-- Default message when no service is selected -->
+<div class="container mt-4">
+    <!-- Default message when no service is selected -->
     <p id="defaultMessage">Please select any service to proceed.</p>
 
-       <!-- Place Your Order card -->
+    <!-- Place Your Order card -->
     <div class="card" id="orderCard" style="display: none;">
-      <div class="card-body">
-        <h2 class="card-title">Place Your Order</h2>
-        <form method="post">
-          {% csrf_token %}
-
-          <div class="form-group">
-            <label for="currencyYouHave">Currency You Have</label>
-            <select class="form-control" id="currencyYouHave" name="currencyYouHave" required>
-              <option value="CAD">Canadian Dollar (CAD)</option>
-              <!-- Add more options as needed -->
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label for="currencyYouWant">Currency You Want</label>
-            <select class="form-control" id="currencyYouWant" name="currencyYouWant" required>
-              <option value="USD">United States Dollar (USD)</option>
-              <option value="EUR">Euro (EUR)</option>
-              <option value="GBP">British Pound Sterling (GBP)</option>
-              <option value="JPY">Japanese Yen (JPY)</option>
-              <option value="AUD">Australian Dollar (AUD)</option>
-              <option value="CHF">Swiss Franc (CHF)</option>
-              <option value="CNY">Chinese Yuan (CNY)</option>
-              <option value="SEK">Swedish Krona (SEK)</option>
-              <option value="NZD">New Zealand Dollar (NZD)</option>
-              <option value="INR">Indian Rupee (INR)</option>
-              <!-- Add more options as needed -->
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label for="amount">Amount</label>
-            <input type="number" class="form-control" id="amount" name="amount" required>
-          </div>
-
-          <div class="form-group">
-            <label for="convertedAmount">Converted Amount</label>
-            <input type="text" class="form-control" id="convertedAmount" name="convertedAmount" readonly>
-          </div>
-
-          <button type="submit" class="btn btn-primary">Submit Order</button>
-        </form>
-      </div>
+        <div class="card-body">
+            <h2 class="card-title">Place Your Order</h2>
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="currencyYouHave">Currency You Have</label>
+                    <select class="form-control" id="currencyYouHave" name="currencyYouHave" required>
+                        <option value="CAD">United States Dollar (USD)</option>
+                        <!-- Add more options as needed -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="currencyYouWant">Currency You Want</label>
+                    <select class="form-control" id="currencyYouWant" name="currencyYouWant" required>
+                        <option value="USD">Canadian Dollar (CAD)</option>
+                        <option value="EUR">Euro (EUR)</option>
+                        <option value="GBP">British Pound Sterling (GBP)</option>
+                        <option value="JPY">Japanese Yen (JPY)</option>
+                        <option value="AUD">Australian Dollar (AUD)</option>
+                        <option value="CHF">Swiss Franc (CHF)</option>
+                        <option value="CNY">Chinese Yuan (CNY)</option>
+                        <option value="SEK">Swedish Krona (SEK)</option>
+                        <option value="NZD">New Zealand Dollar (NZD)</option>
+                        <option value="INR">Indian Rupee (INR)</option>
+                        <!-- Add more options as needed -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="amount">Amount</label>
+                    <input type="number" class="form-control" id="amount" name="amount" required>
+                </div>
+                <div class="form-group">
+                    <label for="convertedAmount">Converted Amount</label>
+                    <input type="text" class="form-control" id="convertedAmount" name="convertedAmount" readonly>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit Order</button>
+            </form>
+        </div>
     </div>
-  </div>
+
+{% else %}
+<!-- Display "Place the Order" section when the user is not authenticated -->
+<div class="container mt-4">
+    <div class="card" id="orderCardNotAuthenticated">
+        <div class="card-body">
+            <h2 class="card-title">Place Your Order</h2>
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="currencyYouHave">Currency You Have</label>
+                    <select class="form-control" id="currencyYouHave" name="currencyYouHave" required>
+                        <option value="CAD">United States Dollar (USD)</option>
+                        <!-- Add more options as needed -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="currencyYouWant">Currency You Want</label>
+                    <select class="form-control" id="currencyYouWant" name="currencyYouWant" required>
+                        <option value="USD">Canadian Dollar (CAD)</option>
+                        <option value="EUR">Euro (EUR)</option>
+                        <option value="GBP">British Pound Sterling (GBP)</option>
+                        <option value="JPY">Japanese Yen (JPY)</option>
+                        <option value="AUD">Australian Dollar (AUD)</option>
+                        <option value="CHF">Swiss Franc (CHF)</option>
+                        <option value="CNY">Chinese Yuan (CNY)</option>
+                        <option value="SEK">Swedish Krona (SEK)</option>
+                        <option value="NZD">New Zealand Dollar (NZD)</option>
+                        <option value="INR">Indian Rupee (INR)</option>
+                        <!-- Add more options as needed -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="amount">Amount</label>
+                    <input type="number" class="form-control" id="amount" name="amount" required>
+                </div>
+                <div class="form-group">
+                    <label for="convertedAmount">Converted Amount</label>
+                    <input type="text" class="form-control" id="convertedAmount" name="convertedAmount" readonly>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit Order</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endif %}
+</div>
 {% endblock %}

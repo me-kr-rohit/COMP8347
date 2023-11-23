@@ -1,3 +1,6 @@
+{% extends 'base.html' %}
+
+{% block content %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,18 +8,18 @@
     <title>Frequently Asked Questions</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Roboto', sans-serif;
             margin: 0;
             background-color: #f4f4f4;
         }
         ol {
             list-style-type: none;
-            counter-reset: my-counter;
+            counter-reset: faq-counter;
             padding: 0;
         }
 
-        li {
-            counter-increment: my-counter;
+        li.faq-item {
+            counter-increment: faq-counter;
             margin-bottom: 20px;
         }
 
@@ -27,8 +30,8 @@
             margin: 0; /* Remove default margin for <h1> */
         }
 
-        li::before {
-            content: counter(my-counter) ". ";
+        li.faq-item::before {
+            content: counter(faq-counter) ". ";
             font-size: x-large;
             font-weight: bold;
             margin-right: 5px;
@@ -39,12 +42,13 @@
         }
         header {
             text-align: center;
-            background-color: lightblue;
+             border-radius: 10px; /* Add border-radius for rounded corners */
+            background-color: #343a40;
             color: white;
             padding: 10px;
         }
          h2 {
-            color: #333;
+            color: white;
         }
 
     </style>
@@ -54,22 +58,23 @@
         <h2>Frequently Asked Questions</h2>
     </header>
     <ol>
-        <li>
+        <li class="faq-item">
             <h1>Is there any mark-up on the currency conversion rate shown?</h1>
             <p>No</p>
         </li>
-        <li>
+        <li class="faq-item">
             <h1>What currencies are available for exchange ?</h1>
             <p>All major or exotic currencies are available on the website. List of currencies can be referred to through our full rate card.</p>
         </li>
-        <li>
+        <li class="faq-item">
             <h1>Is there any minimum order value for placing currency notes order?</h1>
             <p>Yes, the order value must be at a minimum of CAD 150.</p>
         </li>
-        <li>
+        <li class="faq-item">
             <h1>Can I buy 2 or more currencies in single order?</h1>
             <p>No</p>
         </li>
     </ol>
 </body>
 </html>
+{% endblock %}

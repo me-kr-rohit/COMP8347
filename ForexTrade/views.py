@@ -10,7 +10,7 @@ from django.views import View
 from django.core.exceptions import ValidationError
 
 
-from ForexTrade.models import Role, UserProfile, Membership
+from ForexTrade.models import UserProfile, Membership
 # views.py
 from django.shortcuts import render
 
@@ -30,11 +30,10 @@ class RegisterView(View):
         email = request.POST['email']
         password = request.POST['password']
         confirm_password = request.POST['confirm_password']
-        role = request.POST['role']
         id_or_photo = request.FILES.get('id_or_photo')
 
         # Validate the file type
-        allowed_file_types = ['image/jpeg', 'image/png', 'application/pdf']
+        allowed_file_types = ['image/jpeg', 'image/png']
 
         if password != confirm_password:
             context = {
@@ -52,7 +51,7 @@ class RegisterView(View):
 
         if id_or_photo and id_or_photo.content_type not in allowed_file_types:
             context = {
-                "error": "Invalid file type. Please upload a valid ID or photo (JPEG, PNG, PDF)."
+                "error": "Invalid file type. Please upload a valid  photo (JPEG, PNG)."
             }
             return render(request, 'register.html', context=context)
 
@@ -66,9 +65,6 @@ class RegisterView(View):
             else:
                 messages.error(request, 'Error during user authentication.')
 
-            # Get or create the Role object based on the selected role
-            role_obj, created = Role.objects.get_or_create(name=role)
-
             # Get or create the default Membership object
             default_membership, created = Membership.objects.get_or_create(
                 pk=3,  # Assuming 3 is the default membership ID
@@ -81,7 +77,6 @@ class RegisterView(View):
                 first_name=first_name,
                 last_name=last_name,
                 email=email,
-                role=role_obj,
                 membership=default_membership,
                 id_or_photo=id_or_photo,
                 created_at=timezone.now()
@@ -114,14 +109,13 @@ def login_view(request):
 
         if user is not None:
             login(request, user)
-            messages.success(request, 'Login successful!')
             return redirect('home')  # Redirect to the home page after successful login
         else:
             error_message = 'Invalid email or password.'
             messages.error(request, error_message)
             return render(request, 'login.html', {'error_message': error_message})
     else:
-        return render(request, 'login.html')
+        return render(request, 'login.html',{})
 
 
 class LogoutView:
