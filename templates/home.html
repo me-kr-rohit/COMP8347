@@ -185,7 +185,7 @@
                 <div class="form-group">
                     <label for="currencyYouWant">Currency You Want</label>
                     <select class="form-control" id="currencyYouWant" name="currencyYouWant" required>
-                        <option value="USD">Canadian Dollar (CAD)</option>
+                        <option value="CAD">Canadian Dollar (CAD)</option>
                         <option value="EUR">Euro (EUR)</option>
                         <option value="GBP">British Pound Sterling (GBP)</option>
                         <option value="JPY">Japanese Yen (JPY)</option>
@@ -214,22 +214,31 @@
 {% else %}
 <!-- Display "Place the Order" section when the user is not authenticated -->
 <div class="container mt-4">
-    <div class="card" id="orderCardNotAuthenticated">
-        <div class="card-body">
+
             <h2 class="card-title">Place Your Order</h2>
             <form method="post">
                 {% csrf_token %}
                 <div class="form-group">
                     <label for="currencyYouHave">Currency You Have</label>
                     <select class="form-control" id="currencyYouHave" name="currencyYouHave" required>
-                        <option value="CAD">United States Dollar (USD)</option>
+                             <option value="USD">United State Dollar (USD)</option>
+                         <option value="CAD">Canadian Dollar (CAD)</option>
+                        <option value="EUR">Euro (EUR)</option>
+                        <option value="GBP">British Pound Sterling (GBP)</option>
+                        <option value="JPY">Japanese Yen (JPY)</option>
+                        <option value="AUD">Australian Dollar (AUD)</option>
+                        <option value="CHF">Swiss Franc (CHF)</option>
+                        <option value="CNY">Chinese Yuan (CNY)</option>
+                        <option value="SEK">Swedish Krona (SEK)</option>
+                        <option value="NZD">New Zealand Dollar (NZD)</option>
+                        <option value="INR">Indian Rupee (INR)</option>
                         <!-- Add more options as needed -->
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="currencyYouWant">Currency You Want</label>
                     <select class="form-control" id="currencyYouWant" name="currencyYouWant" required>
-                        <option value="USD">Canadian Dollar (CAD)</option>
+                        <option value="CAD">Canadian Dollar (CAD)</option>
                         <option value="EUR">Euro (EUR)</option>
                         <option value="GBP">British Pound Sterling (GBP)</option>
                         <option value="JPY">Japanese Yen (JPY)</option>
@@ -244,17 +253,57 @@
                 </div>
                 <div class="form-group">
                     <label for="amount">Amount</label>
-                    <input type="number" class="form-control" id="amount" name="amount" required>
+                    <input type="number" class="form-control" id="amount" name="amount" oninput="updateConvertedAmount()" required>
                 </div>
-                <div class="form-group">
+                <div class="form-group" id="convertedAmountSection"  style="display: none;">
                     <label for="convertedAmount">Converted Amount</label>
-                    <input type="text" class="form-control" id="convertedAmount" name="convertedAmount" readonly>
+                    <input type="text" class="form-control" id="convertedAmount" name="convertedAmount" readonly >
                 </div>
-                <button type="submit" class="btn btn-primary">Submit Order</button>
+                <button type="button" class="btn btn-primary"  onclick="getExchangeRate()" >Get Exchange Rate</button>
             </form>
-        </div>
-    </div>
+
 </div>
+    <script>
+     function updateConvertedAmount() {
+        // Get the entered amount
+        var enteredAmount = parseFloat(document.getElementById("amount").value);
+
+        // Check if the entered amount is a valid number
+        if (!isNaN(enteredAmount)) {
+            // Multiply the entered amount by 5 to simulate the exchange rate
+            var convertedAmount = enteredAmount * 5;
+
+            // Display the converted amount section
+            var convertedAmountSection = document.getElementById("convertedAmountSection");
+            var convertedAmountInput = document.getElementById("convertedAmount");
+            convertedAmountInput.value = convertedAmount.toFixed(2);  // Displaying with 2 decimal places
+            convertedAmountSection.style.display = "block";
+        } else {
+            // If the entered amount is not a valid number, hide the converted amount section
+            var convertedAmountSection = document.getElementById("convertedAmountSection");
+            convertedAmountSection.style.display = "none";
+        }
+    }
+
+
+    function getExchangeRate() {
+        // Get the entered amount
+        var enteredAmount = parseFloat(document.getElementById("amount").value);
+ // Check if the entered amount is a valid number
+        if (!isNaN(enteredAmount)) {
+            // Multiply the entered amount by 5 to simulate the exchange rate
+            var convertedAmount = enteredAmount * 5;
+
+            // Display the converted amount section
+            var convertedAmountSection = document.getElementById("convertedAmountSection");
+            var convertedAmountInput = document.getElementById("convertedAmount");
+            convertedAmountInput.value = convertedAmount.toFixed(2);  // Displaying with 2 decimal places
+            convertedAmountSection.style.display = "block";
+        } else {
+            alert("Please enter a valid number for the amount.");
+        }
+    }
+</script>
 {% endif %}
 </div>
 {% endblock %}
