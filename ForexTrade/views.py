@@ -9,7 +9,6 @@ from django.utils import timezone
 from django.views import View
 from django.core.exceptions import ValidationError
 
-
 from ForexTrade.models import UserProfile, Membership
 # views.py
 from django.shortcuts import render
@@ -115,7 +114,7 @@ def login_view(request):
             messages.error(request, error_message)
             return render(request, 'login.html', {'error_message': error_message})
     else:
-        return render(request, 'login.html',{})
+        return render(request, 'login.html', {})
 
 
 class LogoutView:
@@ -123,6 +122,7 @@ class LogoutView:
         logout(request)  # Call the logout function to log out the user
         messages.success(request, 'Logout successful!')
         return redirect('home')  # Redirect to the home page after successful logout
+
 
 # Abhirup Start
 def about(request):
@@ -139,5 +139,11 @@ def offers(request):
 
 def contact(request):
     return render(request, 'contactUs.html')
+
+
 # Abhirup End
 
+class MyAccountView(View):
+    def get(self, request, *args, **kwargs):
+        # Your logic for the My Account page
+        return render(request, 'my_account.html')  # Replace 'my_account.html' with your actual template

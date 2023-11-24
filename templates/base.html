@@ -54,24 +54,36 @@
         .content {
             width: 100%;
             max-width: 800px; /* Adjust as needed */
-            margin-top: 20px;
+            margin-top: 70px;
+        }
+        .logo{
+            max-width: 100px;
+        }
+         .logout-btn {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
         }
 
-        /* Style for the logo */
-        .logo {
-            max-width: 100px; /* Adjust the width as needed */
-        }
+    .user-logo {
+      max-width: 35px;
+    }
     </style>
 </head>
 <body>
     <nav>
         <ul>
-             <li><a class="logo-btn" href="{% url 'home' %}"><img class="logo" src="{% static 'path/to/your/logo.png' %}" alt="Logo"></a></li>
+             <li><a class="logo-btn" href="{% url 'home' %}"><img class="logo" src="{% static '/images/logo.png' %}" alt="Logo"></a></li>
         </ul>
         <ul>
             {% if user.is_authenticated %}
-                 <li><a class="logo-btn" href="{% url 'home' %}"><img class="logo" src="{% static 'path/to/your/logo.png' %}" alt="Logo"></a></li>
-                <li><a href="{% url 'logout' %}">Logout</a></li>
+                <a class="my_account" href="{% url 'my_account' %}">
+                        <img class="user-logo" src="{% static '/images/user.png' %}" alt="myAccountLogo">
+                    </a>
+
+              <li class="logout-btn">
+                    <a href="{% url 'logout' %}">Logout</a>
+                </li>
             {% else %}
                 <li><a href="{% url 'register' %}">Register</a></li>
                 <li><a href="{% url 'login' %}">Login</a></li>

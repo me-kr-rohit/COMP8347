@@ -5,6 +5,9 @@
     body {
         background-color: #f8f9fa;
         font-family: 'Roboto', sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Center content horizontally */
     }
     .navbar {
         background-color: #343a40;
@@ -105,6 +108,7 @@
         padding-left: 15px;
         margin-right: auto;
         margin-left: auto;
+        justify-content: center;
     }
 </style>
 
@@ -115,7 +119,7 @@
         var card = document.getElementById("orderCard");
         var defaultMessage = document.getElementById("defaultMessage");
 
-        if (selectedOption === "#selectService") {
+        if (selectedOption === "#exchangeRate") {
             card.style.display = "block";
             defaultMessage.style.display = "none";
         } else {
@@ -128,7 +132,7 @@
 {% if user.is_authenticated %}
 <!-- Navigation Bar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark " style="width: max-content;">
-    <div class="container"> <!-- Add a container to ensure full width -->
+     <div class="container "><!-- Add a container to ensure full width -->
         <span class="navbar-toggler-icon"></span>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
