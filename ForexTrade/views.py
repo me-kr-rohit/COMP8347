@@ -189,3 +189,5 @@ def get_exchange_rate(request):
         return JsonResponse({'success': False})
 
 # fx rates api end
+
+

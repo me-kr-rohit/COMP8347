@@ -68,6 +68,11 @@
     .user-logo {
       max-width: 35px;
     }
+    .navbar-nav2 {
+
+
+
+}
     </style>
 </head>
 <body>
@@ -75,6 +80,27 @@
         <ul>
              <li><a class="logo-btn" href="{% url 'home' %}"><img class="logo" src="{% static '/images/logo.png' %}" alt="Logo"></a></li>
         </ul>
+     <ul class="navbar-nav2">
+            <li><a class="nav-link" href="{% url 'about' %}">About Us</a></li>
+            <li><a class="nav-link" href="#">Quick Access</a></li>
+           {% if user.is_authenticated %}
+          <li>
+                <label for="servicesDropdown" class="nav-link"></label>
+                <div class="d-flex flex-column">
+                    <select class="form-control" id="servicesDropdown" name="servicesDropdown" onchange="toggleCardVisibility();">
+                        <option value="#selectService" selected disabled>Select a Service</option>
+                        <option value="#exchangeRate">Exchange Rate</option>
+                        <option value="#currentTrend">Current Trends</option>
+                        <option value="#chartPattern">Charts Patterns</option>
+                        <!-- Add more options as needed -->
+                    </select>
+                </div>
+            </li>
+           {% endif %}
+           <li><a class="nav-link" href="{% url 'offers' %}">Offers</a></li>
+            <li><a class="nav-link" href="{% url 'faq' %}">FAQs</a></li>
+            <li><a class="nav-link" href="{% url 'contactUs' %}">Contact Us</a></li>
+     </ul>
         <ul>
             {% if user.is_authenticated %}
                 <a class="my_account" href="{% url 'my_account' %}">

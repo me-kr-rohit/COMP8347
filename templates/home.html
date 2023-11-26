@@ -132,43 +132,7 @@
 
 {% if user.is_authenticated %}
 <!-- Navigation Bar -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark " style="width: max-content;">
-     <div class="container "><!-- Add a container to ensure full width -->
-        <span class="navbar-toggler-icon"></span>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
-                <!-- Your existing content -->
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'about' %}">About Us</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Quick Access</a>
-                </li>
-                <li class="nav-item">
-                    <label for="servicesDropdown" class="nav-link" style="margin-left: 20px;">Services</label>
-                    <div class="d-flex flex-column">
-                        <select class="form-control" id="servicesDropdown" name="servicesDropdown" onchange="toggleCardVisibility();">
-                            <option value="#selectService" selected disabled>Select a Service</option>
-                            <option value="#exchangeRate">Exchange Rate</option>
-                            <option value="#currentTrend">Current Trends</option>
-                            <option value="#chartPattern">Charts Patterns</option>
-                            <!-- Add more options as needed -->
-                        </select>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'offers' %}">Offers</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'faq' %}">FAQs</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'contactUs' %}">Contact Us</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
+
 
 <div class="container mt-4">
     <!-- Default message when no service is selected -->
