@@ -1,3 +1,4 @@
+from django.shortcuts import redirect
 from django.contrib import messages
 import logging
 from django.contrib.auth import authenticate, login, logout
@@ -5,7 +6,7 @@ from django.contrib.auth.models import User
 from django.contrib.sites import requests
 from django.db import IntegrityError
 from django.db.models import Q
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.utils import timezone
 from django.views import View
 import requests
@@ -85,19 +86,24 @@ class RegisterView(View):
             )
 
             messages.success(request, 'Registration successful!')
-            return render(request, 'home.html')  # Redirect to the home page after successful registration
+            messages.get_messages(request)
+            storage = messages.get_messages(request)
+            storage.used = True  # This line clears all existing messages
+            return redirect('login')  # Redirect to the home page after successful registration
         except IntegrityError as e:
             if 'UNIQUE constraint failed' in str(e):
                 print(f"Error: {e}")
                 messages.error(request, 'Email already exists. Please try another email.')
+                return render(request, 'register.html', {'error_message': 'An error occurred during registration.'})
             else:
                 print(f"Unexpected error: {e}")
                 messages.error(request, f'Error: {e}')
-
+                return render(request, 'register.html', context={'error': f'Error saving the file: {e}'})
         except ValidationError as e:
             context = {
                 "error": f"Error saving the file: {e}"
             }
+            # Render the 'register.html' template with a specific error message
             return render(request, 'register.html', context=context)
 
 
@@ -120,7 +126,7 @@ def login_view(request):
         return render(request, 'login.html', {})
 
 
-class LogoutView:
+class LogoutView(View):
     def get(self, request):
         logout(request)  # Call the logout function to log out the user
         messages.success(request, 'Logout successful!')
