@@ -4,13 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}My Django App{% endblock %}</title>
- <!-- Bootstrap CSS -->
+    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
-    <!-- jQuery and Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+Wy6q6B2QQp8DxnAagJ2gce5OdFer5l5+kg" crossorigin="anonymous"></script>
 
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <style>
@@ -30,7 +25,8 @@
             padding: 10px 0;
             width: 100%;
             display: flex;
-            align-items: center; /* Center items vertically */
+            justify-content: space-between;
+            align-items: center;
         }
 
         ul {
@@ -58,23 +54,61 @@
         .content {
             width: 100%;
             max-width: 800px; /* Adjust as needed */
-            margin-top: 20px;
+            margin-top: 70px;
+        }
+        .logo{
+            max-width: 100px;
+        }
+         .logout-btn {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
         }
 
-        /* Add this style for the "Home" list item */
-        li:first-child {
-            margin-right: auto;
-        }
+    .user-logo {
+      max-width: 35px;
+    }
+    .navbar-nav2 {
+
+
+
+}
     </style>
 </head>
 <body>
     <nav>
         <ul>
-            <li><a href="{% url 'home' %}">Home</a></li>
+             <li><a class="logo-btn" href="{% url 'home' %}"><img class="logo" src="{% static '/images/logo.png' %}" alt="Logo"></a></li>
+        </ul>
+     <ul class="navbar-nav2">
+            <li><a class="nav-link" href="{% url 'about' %}">About Us</a></li>
+            <li><a class="nav-link" href="#">Quick Access</a></li>
+           {% if user.is_authenticated %}
+          <li>
+                <label for="servicesDropdown" class="nav-link"></label>
+                <div class="d-flex flex-column">
+                    <select class="form-control" id="servicesDropdown" name="servicesDropdown" onchange="toggleCardVisibility();">
+                        <option value="#selectService" selected disabled>Select a Service</option>
+                        <option value="#exchangeRate">Exchange Rate</option>
+                        <option value="#currentTrend">Current Trends</option>
+                        <option value="#chartPattern">Charts Patterns</option>
+                        <!-- Add more options as needed -->
+                    </select>
+                </div>
+            </li>
+           {% endif %}
+           <li><a class="nav-link" href="{% url 'offers' %}">Offers</a></li>
+            <li><a class="nav-link" href="{% url 'faq' %}">FAQs</a></li>
+            <li><a class="nav-link" href="{% url 'contactUs' %}">Contact Us</a></li>
+     </ul>
+        <ul>
             {% if user.is_authenticated %}
-               <!-- Add a link for logout when the user is authenticated -->
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                <a class="my_account" href="{% url 'my_account' %}">
+                        <img class="user-logo" src="{% static '/images/user.png' %}" alt="myAccountLogo">
+                    </a>
+
+              <li class="logout-btn">
+                    <a href="{% url 'logout' %}">Logout</a>
                 </li>
             {% else %}
                 <li><a href="{% url 'register' %}">Register</a></li>

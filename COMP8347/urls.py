@@ -20,7 +20,7 @@ from django.contrib import admin
 from django.contrib.auth.views import LogoutView
 from django.urls import path
 from ForexTrade import views
-from ForexTrade.views import RegisterView, login_view, home_view
+from ForexTrade.views import RegisterView, login_view, home_view, MyAccountView, get_exchange_rate
 
 urlpatterns = [
     path('', home_view, name='home'),
@@ -28,11 +28,13 @@ urlpatterns = [
     path('register/', RegisterView.as_view(), name='register'),
     path('login/', login_view, name='login'),
     path('logout/', LogoutView.as_view(next_page='home'), name='logout'),
-    # Abhirup Start
     path('about/', views.about, name='about'),
     path('faq/', views.faq, name='faq'),
     path('offer/', views.offers, name='offers'),
     path('contact/', views.contact, name='contactUs'),
-    # Abhirup End
+    path('my_account/', MyAccountView.as_view(), name='my_account'),
+    path('get_exchange_rate/', get_exchange_rate, name='get_exchange_rate'),
+
+
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,58 +1,283 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <!-- Navigation Bar -->
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Forex/Crypto Trading</a>
+<style>
+    body {
+        background-color: #f8f9fa;
+        font-family: 'Roboto', sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Center content horizontally */
+    }
+    .navbar {
+        background-color: #343a40;
+        color: white;
+        padding: 20px 0;
+        border-radius: 10px; /* Add border-radius for rounded corners */
+    }
 
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ml-auto">
-        {% if user.is_authenticated %}
-          <!-- If the user is logged in, show the content -->
-          <li class="nav-item active">
-            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-          </li>
+    .navbar-nav {
+        display: flex;
+        align-items: center;
+    }
 
-          <!-- Nested dropdowns for authenticated users -->
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="servicesDropdown" role="button" data-toggle="collapse" data-target="#servicesCollapse" aria-haspopup="true" aria-expanded="false">
-              Services
-            </a>
-            <div class="collapse" id="servicesCollapse">
-              <div class="dropdown-menu" aria-labelledby="servicesDropdown">
-                <a class="dropdown-item" href="#">Current Trends</a>
-                <a class="dropdown-item" href="#">Charts Patterns</a>
-                <a class="dropdown-item" href="#">Exchange Rate</a>
-              </div>
-            </div>
-          </li>
+    .navbar-nav .nav-link {
+        color: #ffffff; /* Change the color of the navbar links */
+        margin-right: 15px; /* Adjust the right margin as needed */
+    }
 
-          <!-- Add other dropdowns as needed -->
-           <!-- Abhirup Start -->
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'about' %}">About Us</a>
-          </li>
+    .navbar-toggler-icon {
+        background-color: #ffffff; /* Change the color of the navbar toggler icon */
+    }
 
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'offers' %}">Offers</a>
-          </li>
-          <!-- Abhirup End -->
+    .navbar-nav .nav-item.active .nav-link {
+        color: #007bff;
+    }
 
-          <li class="nav-item">
-            <a class="nav-link" href="#">Quick Access</a>
-          </li>
+    /* Additional styles for a more stylish look */
+    .navbar-nav .nav-item {
+        margin-right: 15px;
+    }
 
-           <!-- Abhirup Start -->
-           <li class="nav-item">
-            <a class="nav-link" href="{% url 'faq' %}">FAQs</a>
-          </li>
+    .navbar-nav .nav-item:last-child {
+        margin-right: 0;
+    }
 
-           <li class="nav-item">
-            <a class="nav-link" href="{% url 'contactUs' %}">Contact Us</a>
-          </li>
-          <!-- Abhirup End -->
-        {% endif %}
-      </ul>
+    .navbar-nav .nav-link:hover {
+        color: #007bff;
+    }
+
+    .navbar-toggler-icon:hover {
+        background-color: #007bff;
+    }
+
+    .card {
+        background-color: #ffffff;
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin-top: 20px;
+        display: none; /* Initially hide the card */
+    }
+
+    .card-body {
+        padding: 30px;
+    }
+
+    h2 {
+        color: #007bff;
+    }
+
+    label {
+        font-weight: bold;
+    }
+
+    select,
+    input {
+        margin-bottom: 15px;
+    }
+
+    button {
+        background-color: #007bff;
+        color: #ffffff;
+        border: none;
+        border-radius: 5px;
+        padding: 12px 25px;
+        cursor: pointer;
+        font-size: 1.2rem;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    #defaultMessage {
+        font-size: 1.2rem;
+        color: #868e96;
+        margin-top: 20px;
+        text-align: center;
+    }
+
+    /* Adjusted style to stretch the navbar */
+    .navbar {
+        width: 100%;
+    }
+
+    .container {
+        width: 100%;
+        padding-right: 15px;
+        padding-left: 15px;
+        margin-right: auto;
+        margin-left: auto;
+        justify-content: center;
+    }
+</style>
+
+<script>
+    // Function to toggle the visibility of the card based on the selected option
+    function toggleCardVisibility() {
+        var selectedOption = document.getElementById("servicesDropdown").value;
+        var card = document.getElementById("orderCard");
+        var defaultMessage = document.getElementById("defaultMessage");
+
+
+        if (selectedOption === "#exchangeRate") {
+            card.style.display = "block";
+            defaultMessage.style.display = "none";
+        } else {
+            card.style.display = "none";
+            defaultMessage.style.display = "block";
+        }
+    }
+</script>
+
+{% if user.is_authenticated %}
+<!-- Navigation Bar -->
+
+
+<div class="container mt-4">
+    <!-- Default message when no service is selected -->
+    <p id="defaultMessage">Please select any service to proceed.</p>
+
+    <!-- Place Your Order card -->
+    <div class="card" id="orderCard" style="display: none;">
+        <div class="card-body">
+            <h2 class="card-title">Place Your Order</h2>
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="currencyYouHave">Currency You Have</label>
+                    <select class="form-control" id="currencyYouHave" name="currencyYouHave" required>
+                        <option value="CAD">United States Dollar (USD)</option>
+                        <!-- Add more options as needed -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="currencyYouWant">Currency You Want</label>
+                    <select class="form-control" id="currencyYouWant" name="currencyYouWant" required>
+                        <option value="CAD">Canadian Dollar (CAD)</option>
+                        <option value="EUR">Euro (EUR)</option>
+                        <option value="GBP">British Pound Sterling (GBP)</option>
+                        <option value="JPY">Japanese Yen (JPY)</option>
+                        <option value="AUD">Australian Dollar (AUD)</option>
+                        <option value="CHF">Swiss Franc (CHF)</option>
+                        <option value="CNY">Chinese Yuan (CNY)</option>
+                        <option value="SEK">Swedish Krona (SEK)</option>
+                        <option value="NZD">New Zealand Dollar (NZD)</option>
+                        <option value="INR">Indian Rupee (INR)</option>
+                        <!-- Add more options as needed -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="amount">Amount</label>
+                    <input type="number" class="form-control" id="amount" name="amount" required>
+                </div>
+                <div class="form-group">
+                    <label for="convertedAmount">Converted Amount</label>
+                    <input type="text" class="form-control" id="convertedAmount" name="convertedAmount" readonly>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit Order</button>
+            </form>
+        </div>
     </div>
-  </nav>
+
+{% else %}
+<!-- Display "Place the Order" section when the user is not authenticated -->
+<div class="container mt-4">
+
+            <h2 class="card-title">Place Your Order</h2>
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="currencyYouHave">Currency You Have</label>
+                    <select class="form-control" id="currencyYouHave" name="currencyYouHave" required>
+                        <option value="USD">United State Dollar (USD)</option>
+                        <option value="CAD">Canadian Dollar (CAD)</option>
+                        <option value="EUR">Euro (EUR)</option>
+                        <option value="GBP">British Pound Sterling (GBP)</option>
+                        <option value="JPY">Japanese Yen (JPY)</option>
+                        <option value="AUD">Australian Dollar (AUD)</option>
+                        <option value="CHF">Swiss Franc (CHF)</option>
+                        <option value="CNY">Chinese Yuan (CNY)</option>
+                        <option value="SEK">Swedish Krona (SEK)</option>
+                        <option value="NZD">New Zealand Dollar (NZD)</option>
+                        <option value="INR">Indian Rupee (INR)</option>
+                        <!-- Add more options as needed -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="currencyYouWant">Currency You Want</label>
+                    <select class="form-control" id="currencyYouWant" name="currencyYouWant" required>
+                        <option value="CAD">Canadian Dollar (CAD)</option>
+                        <option value="EUR">Euro (EUR)</option>
+                        <option value="GBP">British Pound Sterling (GBP)</option>
+                        <option value="JPY">Japanese Yen (JPY)</option>
+                        <option value="AUD">Australian Dollar (AUD)</option>
+                        <option value="CHF">Swiss Franc (CHF)</option>
+                        <option value="CNY">Chinese Yuan (CNY)</option>
+                        <option value="SEK">Swedish Krona (SEK)</option>
+                        <option value="NZD">New Zealand Dollar (NZD)</option>
+                        <option value="INR">Indian Rupee (INR)</option>
+                        <!-- Add more options as needed -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="amount">Amount</label>
+                    <input type="text" class="form-control" id="amount" name="amount" oninput="getExchangeRate()" required>
+                </div>
+                <div class="form-group" id="convertedAmountSection"  style="display: none;">
+                    <label for="convertedAmount">Converted Amount</label>
+                    <input type="text" class="form-control" id="convertedAmount" name="convertedAmount" readonly >
+                </div>
+            </form>
+
+</div>
+    <script>
+        function updateConvertedAmount(convertedAmount) {
+            // Display the converted amount section
+            let convertedAmountSection = document.getElementById("convertedAmountSection");
+            let convertedAmountInput = document.getElementById("convertedAmount");
+            convertedAmountInput.value = convertedAmount.toFixed(2);  // Displaying with 2 decimal places
+            convertedAmountSection.style.display = "block";
+        }
+
+        function hideConvertedAmount() {
+            // Hide the converted amount section
+            let convertedAmountSection = document.getElementById("convertedAmountSection");
+            convertedAmountSection.style.display = "none";
+        }
+
+        function getExchangeRate() {
+            let enteredAmount = parseFloat(document.getElementById("amount").value);
+            // Check if enteredAmount is null or empty
+            if (!enteredAmount) {
+                enteredAmount = 0 ;
+            }
+            let currencyYouHave = document.getElementById("currencyYouHave").value;
+            let currencyYouWant = document.getElementById("currencyYouWant").value;
+
+            // Make an AJAX request to the Django view
+            fetch(`/get_exchange_rate/?currencyYouHave=${currencyYouHave}&currencyYouWant=${currencyYouWant}&amount=${enteredAmount}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Check if the API call was successful
+                    if (data.success) {
+                        // If convertedAmount is valid, display it
+                        if (!isNaN(data.convertedAmount)) {
+                            updateConvertedAmount(data.convertedAmount);
+                        } else {
+                            hideConvertedAmount();
+                        }
+                    } else {
+                        // Handle API error
+                        alert("Error fetching exchange rate. Please try try again.");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error fetching exchange rate:", error);
+                    alert("Error fetching exchange rate. Please try again!!!.");
+                });
+        }
+    </script>
+{% endif %}
+</div>
 {% endblock %}
