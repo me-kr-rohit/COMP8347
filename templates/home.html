@@ -113,8 +113,8 @@
 </style>
 
 <script>
-    // Function to toggle the visibility of the card based on the selected option
-    function toggleCardVisibility() {
+        // Function to toggle the visibility of the card based on the selected option
+        function toggleCardVisibility() {
         var selectedOption = document.getElementById("servicesDropdown").value;
         var card = document.getElementById("orderCard");
         var defaultMessage = document.getElementById("defaultMessage");
@@ -128,110 +128,6 @@
             defaultMessage.style.display = "block";
         }
     }
-</script>
-
-{% if user.is_authenticated %}
-<!-- Navigation Bar -->
-
-
-<div class="container mt-4">
-    <!-- Default message when no service is selected -->
-    <p id="defaultMessage">Please select any service to proceed.</p>
-
-    <!-- Place Your Order card -->
-    <div class="card" id="orderCard" style="display: none;">
-        <div class="card-body">
-            <h2 class="card-title">Place Your Order</h2>
-            <form method="post">
-                {% csrf_token %}
-                <div class="form-group">
-                    <label for="currencyYouHave">Currency You Have</label>
-                    <select class="form-control" id="currencyYouHave" name="currencyYouHave" required>
-                        <option value="CAD">United States Dollar (USD)</option>
-                        <!-- Add more options as needed -->
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="currencyYouWant">Currency You Want</label>
-                    <select class="form-control" id="currencyYouWant" name="currencyYouWant" required>
-                        <option value="CAD">Canadian Dollar (CAD)</option>
-                        <option value="EUR">Euro (EUR)</option>
-                        <option value="GBP">British Pound Sterling (GBP)</option>
-                        <option value="JPY">Japanese Yen (JPY)</option>
-                        <option value="AUD">Australian Dollar (AUD)</option>
-                        <option value="CHF">Swiss Franc (CHF)</option>
-                        <option value="CNY">Chinese Yuan (CNY)</option>
-                        <option value="SEK">Swedish Krona (SEK)</option>
-                        <option value="NZD">New Zealand Dollar (NZD)</option>
-                        <option value="INR">Indian Rupee (INR)</option>
-                        <!-- Add more options as needed -->
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="amount">Amount</label>
-                    <input type="number" class="form-control" id="amount" name="amount" required>
-                </div>
-                <div class="form-group">
-                    <label for="convertedAmount">Converted Amount</label>
-                    <input type="text" class="form-control" id="convertedAmount" name="convertedAmount" readonly>
-                </div>
-                <button type="submit" class="btn btn-primary">Submit Order</button>
-            </form>
-        </div>
-    </div>
-
-{% else %}
-<!-- Display "Place the Order" section when the user is not authenticated -->
-<div class="container mt-4">
-
-            <h2 class="card-title">Place Your Order</h2>
-            <form method="post">
-                {% csrf_token %}
-                <div class="form-group">
-                    <label for="currencyYouHave">Currency You Have</label>
-                    <select class="form-control" id="currencyYouHave" name="currencyYouHave" required>
-                        <option value="USD">United State Dollar (USD)</option>
-                        <option value="CAD">Canadian Dollar (CAD)</option>
-                        <option value="EUR">Euro (EUR)</option>
-                        <option value="GBP">British Pound Sterling (GBP)</option>
-                        <option value="JPY">Japanese Yen (JPY)</option>
-                        <option value="AUD">Australian Dollar (AUD)</option>
-                        <option value="CHF">Swiss Franc (CHF)</option>
-                        <option value="CNY">Chinese Yuan (CNY)</option>
-                        <option value="SEK">Swedish Krona (SEK)</option>
-                        <option value="NZD">New Zealand Dollar (NZD)</option>
-                        <option value="INR">Indian Rupee (INR)</option>
-                        <!-- Add more options as needed -->
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="currencyYouWant">Currency You Want</label>
-                    <select class="form-control" id="currencyYouWant" name="currencyYouWant" required>
-                        <option value="CAD">Canadian Dollar (CAD)</option>
-                        <option value="EUR">Euro (EUR)</option>
-                        <option value="GBP">British Pound Sterling (GBP)</option>
-                        <option value="JPY">Japanese Yen (JPY)</option>
-                        <option value="AUD">Australian Dollar (AUD)</option>
-                        <option value="CHF">Swiss Franc (CHF)</option>
-                        <option value="CNY">Chinese Yuan (CNY)</option>
-                        <option value="SEK">Swedish Krona (SEK)</option>
-                        <option value="NZD">New Zealand Dollar (NZD)</option>
-                        <option value="INR">Indian Rupee (INR)</option>
-                        <!-- Add more options as needed -->
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="amount">Amount</label>
-                    <input type="text" class="form-control" id="amount" name="amount" oninput="getExchangeRate()" required>
-                </div>
-                <div class="form-group" id="convertedAmountSection"  style="display: none;">
-                    <label for="convertedAmount">Converted Amount</label>
-                    <input type="text" class="form-control" id="convertedAmount" name="convertedAmount" readonly >
-                </div>
-            </form>
-
-</div>
-    <script>
         function updateConvertedAmount(convertedAmount) {
             // Display the converted amount section
             let convertedAmountSection = document.getElementById("convertedAmountSection");
@@ -278,6 +174,143 @@
                 });
         }
     </script>
-{% endif %}
+{% if user.is_authenticated %}
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark " style="width: max-content;">
+     <div class="container "><!-- Add a container to ensure full width -->
+        <span class="navbar-toggler-icon"></span>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <!-- Your existing content -->
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'about' %}">About Us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Quick Access</a>
+                </li>
+                <li class="nav-item">
+                    <label for="servicesDropdown" class="nav-link" style="margin-left: 20px;">Services</label>
+                    <div class="d-flex flex-column">
+                        <select class="form-control" id="servicesDropdown" name="servicesDropdown" onchange="toggleCardVisibility();">
+                            <option value="#selectService" selected disabled>Select a Service</option>
+                            <option value="#exchangeRate">Exchange Rate</option>
+                            <option value="#currentTrend">Current Trends</option>
+                            <!-- Add more options as needed -->
+                        </select>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'offers' %}">Offers</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'faq' %}">FAQs</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'contactUs' %}">Contact Us</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-4">
+    <!-- Default message when no service is selected -->
+    <p id="defaultMessage">Please select any service to proceed.</p>
+
+    <!-- Place Your Order card -->
+    <div class="card" id="orderCard" style="display: none;">
+        <div class="card-body">
+            <h2 class="card-title">Place Your Order</h2>
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="currencyYouHave">Currency You Have</label>
+                    <select class="form-control" id="currencyYouHave" name="currencyYouHave" required>
+                        <option value="USD">United States Dollar (USD)</option>
+                        <!-- Add more options as needed -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="currencyYouWant">Currency You Want</label>
+                    <select class="form-control" id="currencyYouWant" name="currencyYouWant" required>
+                        <option value="CAD">Canadian Dollar (CAD)</option>
+                        <option value="EUR">Euro (EUR)</option>
+                        <option value="GBP">British Pound Sterling (GBP)</option>
+                        <option value="JPY">Japanese Yen (JPY)</option>
+                        <option value="AUD">Australian Dollar (AUD)</option>
+                        <option value="CHF">Swiss Franc (CHF)</option>
+                        <option value="CNY">Chinese Yuan (CNY)</option>
+                        <option value="SEK">Swedish Krona (SEK)</option>
+                        <option value="NZD">New Zealand Dollar (NZD)</option>
+                        <option value="INR">Indian Rupee (INR)</option>
+                        <!-- Add more options as needed -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="amount">Amount</label>
+                    <input type="number" class="form-control" id="amount" name="amount" oninput="getExchangeRate()" required>
+                </div>
+                <div class="form-group" id="convertedAmountSection"  style="display: none;">
+                    <label for="convertedAmount">Converted Amount</label>
+                    <input type="text" class="form-control" id="convertedAmount" name="convertedAmount" readonly >
+                </div>
+                <button type="submit" class="btn btn-primary">Submit Order</button>
+            </form>
+        </div>
+    </div>
 </div>
+{% else %}
+<!-- Display "Place the Order" section when the user is not authenticated -->
+<div class="container mt-4">
+
+            <h2 class="card-title">Exchange Currency</h2>
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="currencyYouHave">Currency You Have</label>
+                    <select class="form-control" id="currencyYouHave" name="currencyYouHave" required>
+                        <option value="USD">United State Dollar (USD)</option>
+                        <option value="CAD">Canadian Dollar (CAD)</option>
+                        <option value="EUR">Euro (EUR)</option>
+                        <option value="GBP">British Pound Sterling (GBP)</option>
+                        <option value="JPY">Japanese Yen (JPY)</option>
+                        <option value="AUD">Australian Dollar (AUD)</option>
+                        <option value="CHF">Swiss Franc (CHF)</option>
+                        <option value="CNY">Chinese Yuan (CNY)</option>
+                        <option value="SEK">Swedish Krona (SEK)</option>
+                        <option value="NZD">New Zealand Dollar (NZD)</option>
+                        <option value="INR">Indian Rupee (INR)</option>
+                        <!-- Add more options as needed -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="currencyYouWant">Currency You Want</label>
+                    <select class="form-control" id="currencyYouWant" name="currencyYouWant" required>
+                        <option value="CAD">Canadian Dollar (CAD)</option>
+                        <option value="EUR">Euro (EUR)</option>
+                        <option value="GBP">British Pound Sterling (GBP)</option>
+                        <option value="JPY">Japanese Yen (JPY)</option>
+                        <option value="AUD">Australian Dollar (AUD)</option>
+                        <option value="CHF">Swiss Franc (CHF)</option>
+                        <option value="CNY">Chinese Yuan (CNY)</option>
+                        <option value="SEK">Swedish Krona (SEK)</option>
+                        <option value="NZD">New Zealand Dollar (NZD)</option>
+                        <option value="INR">Indian Rupee (INR)</option>
+                        <!-- Add more options as needed -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="amount">Amount</label>
+                    <input type="number" class="form-control" id="amount" name="amount" oninput="getExchangeRate()" required>
+                </div>
+                <div class="form-group" id="convertedAmountSection"  style="display: none;">
+                    <label for="convertedAmount">Converted Amount</label>
+                    <input type="text" class="form-control" id="convertedAmount" name="convertedAmount" readonly >
+                </div>
+            </form>
+
+</div>
+
+{% endif %}
+
 {% endblock %}
