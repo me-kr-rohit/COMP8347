@@ -2,12 +2,15 @@ from django.contrib import messages
 import logging
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.contrib.sites import requests
 from django.db import IntegrityError
 from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.utils import timezone
 from django.views import View
+import requests
 from django.core.exceptions import ValidationError
+from django.http import JsonResponse
 
 from ForexTrade.models import UserProfile, Membership
 # views.py
@@ -147,3 +150,36 @@ class MyAccountView(View):
     def get(self, request, *args, **kwargs):
         # Your logic for the My Account page
         return render(request, 'my_account.html')  # Replace 'my_account.html' with your actual template
+
+
+# Added By Rohit : Below logic is for to fetch the exchange_rate value from fx rates api
+def get_exchange_rate(request):
+    # Get parameters from the URL using request.GET
+    currency_you_have = request.GET.get('currencyYouHave')
+    currency_you_want = request.GET.get('currencyYouWant')
+    amount = request.GET.get('amount')
+
+    # API endpoint
+    api_url = 'https://api.fxratesapi.com/latest'
+
+    # Parameters for the API request
+    params = {
+        'base': currency_you_have,
+        'currencies': currency_you_want,
+        'amount': amount,
+    }
+
+    # Make the API call
+    response = requests.get(api_url, params=params)
+
+    # Check if the API call was successful
+    if response.status_code == 200:
+        data = response.json()
+        converted_amount = data['rates'].get(currency_you_want, 0)
+
+        return JsonResponse({'success': True, 'convertedAmount': converted_amount})
+    else:
+        # Handle the API error
+        return JsonResponse({'success': False})
+
+# fx rates api end
