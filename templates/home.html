@@ -123,9 +123,10 @@
         if (selectedOption === "#exchangeRate") {
             card.style.display = "block";
             defaultMessage.style.display = "none";
-        } else {
-            card.style.display = "none";
-            defaultMessage.style.display = "block";
+        }
+        else {
+            // Redirect to trend.html
+            window.location.href = {% url 'trend' %};
         }
     }
         function updateConvertedAmount(convertedAmount) {
@@ -176,15 +177,10 @@
     </script>
 {% if user.is_authenticated %}
 <div class="container mt-4">
-    <!-- Default message when no service is selected -->
-    <p id="defaultMessage">Please select any service to proceed.</p>
-
-    <!-- Place Your Order card -->
     <div class="card" id="orderCard" style="display: none;">
         <div class="card-body">
             <h2 class="card-title">Place Your Order</h2>
             <form method="post">
-                {% csrf_token %}
                 <div class="form-group">
                     <label for="currencyYouHave">Currency You Have</label>
                     <select class="form-control" id="currencyYouHave" name="currencyYouHave" required>
