@@ -1,9 +1,15 @@
+from urllib import request
+
 import paypalrestsdk
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.views import PasswordChangeView
+from django.urls import reverse_lazy
+from pandas.io.formats import console
 from paypalrestsdk import Payment
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.models import User
 from django.contrib.sites import requests
 from django.db import IntegrityError
@@ -25,6 +31,7 @@ from django.shortcuts import render
 
 def home_view(request):
     return render(request, 'home.html')
+
 
 # Create your views here.
 
@@ -158,11 +165,6 @@ def contact(request):
 
 # Abhirup End
 
-class MyAccountView(View):
-    def get(self, request, *args, **kwargs):
-        # Your logic for the My Account page
-        return render(request, 'my_account.html')  # Replace 'my_account.html' with your actual template
-
 
 # Below code added by Rohit Kumar - 110088741 : To fetch exchange rate from API
 def get_exchange_rate(request):
@@ -221,7 +223,7 @@ def timeseries_view(request):
     response = requests.get(api_url, params=params)
 
     try:
-    # Check if the API call was successful
+        # Check if the API call was successful
         if response.status_code == 200:
             rates_data = response.json()["rates"]
 
@@ -266,6 +268,7 @@ def get_paypal_api():
     })
     return paypalrestsdk
 
+
 # Below code added by Rohit Kumar - 110088741 : To fetch the payment details
 
 
@@ -283,7 +286,6 @@ def payment_view(request):
     # paypal_secret = settings.PAYPAL_SECRET
 
     paypal_api = get_paypal_api()
-
 
     # Create a PayPal payment
     payment = paypal_api.Payment({
@@ -325,11 +327,23 @@ def payment_view(request):
 def payment_success(request):
     return render(request, 'payment_success.html')
 
+
 @login_required
 def Payment_History(request):
     payments = Payment.objects.all()
     context = {'payments': payments}
     return render(request, 'Payment_History.html', context)
 
+
 # End by Rohit Kumar - 110088741
+@login_required
+def account_settings(request):
+    # Get the UserProfile associated with the logged-in user
+    user_profile = get_object_or_404(UserProfile, user=request.user)
+
+    context = {
+        'user_profile': user_profile,
+    }
+
+    return render(request, 'my_account.html', context=context)
 

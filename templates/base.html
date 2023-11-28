@@ -1,80 +1,17 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{% block title %}My Django App{% endblock %}</title>
-    <!-- Bootstrap CSS -->
-    <!--link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"-->
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}Default Title{% endblock %}</title>
 
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            background-color: #f4f4f4;
-        }
+      <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
-        nav {
-            background-color: #333;
-            padding: 10px 0;
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        ul {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-        }
-
-        li {
-            margin: 0 15px;
-        }
-
-        a {
-            text-decoration: none;
-            color: #fff;
-            font-weight: bold;
-            font-size: 16px;
-        }
-
-        a:hover {
-            color: #ddd;
-        }
-
-        .content {
-            width: 100%;
-            max-width: 800px; /* Adjust as needed */
-            margin-top: 70px;
-        }
-        .logo{
-            max-width: 100px;
-        }
-         .logout-btn {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-        }
-
-    .user-logo {
-      max-width: 35px;
-    }
-    .navbar-nav2 {
+      <link rel="stylesheet" href="{% static 'css/custom_styles.css' %}">
 
 
-
-}
-    </style>
-</head>
+  </head>
 <body>
     <nav>
         <ul>
@@ -91,6 +28,7 @@
                         <option value="#selectService" selected disabled>Select a Service</option>
                         <option value="#exchangeRate">Exchange Rate</option>
                         <option value="#currentTrend">Current Trends</option>
+                        <option value="#chartPattern">Charts Patterns</option>
                         <!-- Add more options as needed -->
                     </select>
                 </div>
@@ -102,7 +40,7 @@
      </ul>
         <ul>
             {% if user.is_authenticated %}
-                <a class="my_account" href="{% url 'my_account' %}">
+                <a class="my_account" href="{% url 'account_settings' %}">
                         <img class="user-logo" src="{% static '/images/user.png' %}" alt="myAccountLogo">
                     </a>
 
@@ -116,8 +54,11 @@
             <!-- Add other navigation links as needed -->
         </ul>
     </nav>
-    <div class="content">
-        {% block content %}{% endblock %}
-    </div>
+    <div class="content">{% block content %}{% endblock %}</div>
+
+    <footer >
+      <p>&copy; 2023 Forex - All Rights Reserved</p>
+    </footer>
+
 </body>
 </html>
