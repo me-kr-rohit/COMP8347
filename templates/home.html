@@ -180,7 +180,8 @@
     <div class="card" id="orderCard" style="display: none;">
         <div class="card-body">
             <h2 class="card-title">Place Your Order</h2>
-            <form method="post">
+            <form method="post" action="{% url 'payment_view' %}">
+                {% csrf_token %}
                 <div class="form-group">
                     <label for="currencyYouHave">Currency You Have</label>
                     <select class="form-control" id="currencyYouHave" name="currencyYouHave" required>

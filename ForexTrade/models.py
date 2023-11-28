@@ -1,6 +1,5 @@
 from django.contrib.auth.models import User
 from django.db import models
-from django.db import models
 
 # Create your models here.
 
@@ -35,3 +34,20 @@ class UserProfile(TimestampedModel):
     def __str__(self):
         membership_name = self.membership.name if self.membership else "No Membership"
         return f"Membership: {membership_name},FirstName: {self.first_name}, LastName: {self.last_name},Email: {self.email}"
+
+
+# Below code added by Rohit Kumar - 110088741
+class Payment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    amount = models.FloatField()
+    payment_date = models.DateTimeField(auto_now_add=True)
+    transaction_id = models.CharField(max_length=50)
+
+
+class PaymentHistory(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    payment = models.ForeignKey(Payment, on_delete=models.CASCADE)
+    transaction_type = models.CharField(max_length=10)  # 'buy' or 'sell'
+    transaction_date = models.DateTimeField(auto_now_add=True)
+
+# End by Rohit Kumar - 110088741

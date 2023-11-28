@@ -1,0 +1,67 @@
+<!-- templates/base.html -->
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Forex Trade{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/payment.css' %}">
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <!--li><a href="{% url 'home' %}">Home</a></li-->
+                {% if user.is_authenticated %}
+                    <!-- If user is authenticated, show username and "Logout" link -->
+                    <!--li style="font-weight: bold">Hello, {{ user.username }}!</li-->
+                    <!--li><a href="{% url 'Payment_History' %}">Transactions</a></li-->
+                    <!--li><a href="{% url 'logout' %}">Logout</a></li-->
+                {% else %}
+                    <!-- If user is not authenticated, show "Sign Up" and "Sign In" links -->
+                    <li><a href="{% url 'register' %}">Sign Up</a></li>
+                    <li><a href="{% url 'login' %}">Sign In</a></li>
+                {% endif %}
+                <!-- Add other navigation links as needed -->
+            </ul>
+        </nav>
+    </header>
+
+
+        <section>
+        <div class="container">
+        <h1>Payment History</h1>
+    <table class="crypto-table">
+        <thead>
+            <tr>
+                <th>SL#</th>
+                <th>Payment Date & Time</th>
+                <th>Amount</th>
+                <th>Transaction ID</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for payment in payments %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ payment.payment_date }}</td>
+                <td>{{ payment.amount }}</td>
+                <td>{{ payment.transaction_id }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2023 Forex Trade. All rights reserved.</p>
+    </footer>
+</body>
+</html>
+{% endblock %}

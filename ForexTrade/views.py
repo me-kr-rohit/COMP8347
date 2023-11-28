@@ -1,5 +1,6 @@
-from datetime import datetime, timedelta
-
+import paypalrestsdk
+from django.contrib.auth.decorators import login_required
+from paypalrestsdk import Payment
 from django.shortcuts import redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -16,8 +17,8 @@ import matplotlib.pyplot as plt
 from io import BytesIO
 import base64
 from datetime import datetime
-
-from ForexTrade.models import UserProfile, Membership
+from COMP8347 import settings
+from ForexTrade.models import UserProfile, Membership, Payment
 # views.py
 from django.shortcuts import render
 
@@ -163,7 +164,7 @@ class MyAccountView(View):
         return render(request, 'my_account.html')  # Replace 'my_account.html' with your actual template
 
 
-# Added By Rohit : Below logic is for to fetch the exchange_rate value from fx rates api
+# Below code added by Rohit Kumar - 110088741 : To fetch exchange rate from API
 def get_exchange_rate(request):
     # Get parameters from the URL using request.GET
     currency_you_have = request.GET.get('currencyYouHave')
@@ -194,10 +195,7 @@ def get_exchange_rate(request):
         return JsonResponse({'success': False})
 
 
-# fx rates api end
-
-
-# Added By Rohit : Below logic is for to fetch the past trend
+# Below code added by Rohit Kumar - 110088741 : To fetch the historical trend from an API
 
 def trend(request):
     return render(request, 'trend.html')
@@ -206,11 +204,6 @@ def trend(request):
 def timeseries_view(request):
     # API endpoint
     api_url = 'https://api.fxratesapi.com/timeseries'
-    # end_date = request.GET.get('toDate')
-    # start_date = request.GET.get('fromDate')
-    # currency = request.GET.get('currency')
-    # accuracy = 'day'
-
     end_date = request.POST.get('toDate')
     start_date = request.POST.get('fromDate')
     currency = request.POST.get('currencyYouWant')
@@ -261,7 +254,82 @@ def timeseries_view(request):
             return render(request, 'trend_chart.html', context)
 
     except Exception as e:
-        # Handle other exceptions
+        # Handle exceptions
         return JsonResponse({'success': False, 'error': f'An error occurred: {str(e)}'})
 
-# past trend end
+
+def get_paypal_api():
+    paypalrestsdk.configure({
+        "mode": settings.PAYPAL_MODE,
+        "client_id": settings.PAYPAL_CLIENT_ID,
+        "client_secret": settings.PAYPAL_SECRET,
+    })
+    return paypalrestsdk
+
+# Below code added by Rohit Kumar - 110088741 : To fetch the payment details
+
+
+def payment_view(request):
+    try:
+        # total_amount = float(total_amount)
+        amount = request.POST.get('amount')
+        total_amount = float(amount)
+    except ValueError:
+        # Handle the case where total_amount is not a valid float
+        # You might want to redirect or display an error message
+        pass
+
+    paypal_client_id = settings.PAYPAL_CLIENT_ID
+    # paypal_secret = settings.PAYPAL_SECRET
+
+    paypal_api = get_paypal_api()
+
+
+    # Create a PayPal payment
+    payment = paypal_api.Payment({
+        "intent": "sale",
+        "payer": {
+            "payment_method": "paypal",
+        },
+        "transactions": [
+            {
+                "amount": {
+                    "total": str(total_amount),
+                    "currency": "USD",
+                },
+            },
+        ],
+        "redirect_urls": {
+            "return_url": "http://localhost:8000/payment_success/",
+            "cancel_url": "http://localhost:8000/payment_cancel/",
+        },
+    })
+
+    if payment.create():
+        # Save the payment details to your local Payment model
+        Payment.objects.create(
+            user=request.user,
+            amount=total_amount,
+            payment_date=timezone.now(),
+            transaction_id=payment.id,
+        )
+        print(Payment)
+    else:
+        print(payment.error)
+        # Handle payment creation error
+
+    return render(request, 'payment.html',
+                  {'paypal_client_id': paypal_client_id, 'total_amount': total_amount})
+
+
+def payment_success(request):
+    return render(request, 'payment_success.html')
+
+@login_required
+def Payment_History(request):
+    payments = Payment.objects.all()
+    context = {'payments': payments}
+    return render(request, 'Payment_History.html', context)
+
+# End by Rohit Kumar - 110088741
+

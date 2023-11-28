@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'ForexTrade.apps.ForextradeConfig',
-    'django_bootstrap5'
+    #'django_bootstrap5'
 ]
 
 MIDDLEWARE = [
@@ -129,5 +129,6 @@ STATIC_URL = 'static/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
-
-
+PAYPAL_CLIENT_ID = 'AfDVYrwKp2JxSiG-pjPQVPsLNGh_ZyGB2boqUyUPAm48vG1uD9zNBdrZWTv7bu8BJ6tScHobhjDM-21Y'
+PAYPAL_SECRET = 'EGggzTt4cJv17tsrXl2pqJe4C27ZPEpPC3hs_c772SYGs-xG2Hdq6Xk0tDEX21jHlj6qat1sjDoY7peF'
+PAYPAL_MODE = 'sandbox'
