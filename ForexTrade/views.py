@@ -1,3 +1,5 @@
+from django.urls import reverse
+
 import paypalrestsdk
 from django.contrib.auth.decorators import login_required
 from paypalrestsdk import Payment
@@ -21,6 +23,7 @@ from COMP8347 import settings
 from ForexTrade.models import UserProfile, Membership, Payment
 # views.py
 from django.shortcuts import render
+from .models import Address
 
 
 def home_view(request):
@@ -139,7 +142,7 @@ class LogoutView(View):
         return redirect('home')  # Redirect to the home page after successful logout
 
 
-# Abhirup Start
+# Start by Abhirup Ranjan - 110091866
 def about(request):
     return render(request, 'aboutUs.html')
 
@@ -155,13 +158,27 @@ def offers(request):
 def contact(request):
     return render(request, 'contactUs.html')
 
-
-# Abhirup End
+# End by Abhirup Ranjan - 110091866
 
 class MyAccountView(View):
+
     def get(self, request, *args, **kwargs):
         # Your logic for the My Account page
         return render(request, 'my_account.html')  # Replace 'my_account.html' with your actual template
+
+    # Start by Abhirup Ranjan - 110091866
+    @login_required
+    def my_account(request):
+        # Retrieve the user's address information
+        try:
+            user_address = Address.objects.get(user=request.user)
+        except Address.DoesNotExist:
+            user_address = None
+
+        return render(request, 'my_account.html', {'user_address': user_address})
+    # End by Abhirup Ranjan - 110091866
+
+
 
 
 # Below code added by Rohit Kumar - 110088741 : To fetch exchange rate from API
@@ -333,3 +350,35 @@ def Payment_History(request):
 
 # End by Rohit Kumar - 110088741
 
+# Start by Abhirup Ranjan - 110091866
+@login_required
+def save_changes(request):
+    if request.method == 'POST':
+        # Get user information
+        user = request.user
+
+        # Get address information from the form
+        address = request.POST.get('address', '')
+        pin_code = request.POST.get('pin_code', '')
+        province = request.POST.get('province', '')
+        city = request.POST.get('city', '')
+
+        print(f"Address: {address}, Pin Code: {pin_code}, Province: {province}, City: {city}")
+
+        # Check if the user already has an address, if yes, update it, else create a new one
+        user_address, created = Address.objects.get_or_create(user=user)
+        user_address.address = address
+        user_address.pin_code = pin_code
+        user_address.province = province
+        user_address.city = city
+        user_address.save()
+
+        print("Address saved successfully!")
+
+    # Retrieve the updated address information
+    user_address = Address.objects.get(user=request.user)
+
+    # Use reverse to get the URL based on the name of the URL pattern
+    return render(request, 'my_account.html', {'user_address': user_address})
+
+# End by Abhirup Ranjan - 110091866

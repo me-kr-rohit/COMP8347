@@ -82,7 +82,19 @@
         </ul>
      <ul class="navbar-nav2">
             <li><a class="nav-link" href="{% url 'about' %}">About Us</a></li>
-            <li><a class="nav-link" href="#">Quick Access</a></li>
+            <li>
+                    {% csrf_token %}
+                    <label for="servicesDropdown" class="nav-link"></label>
+                    <div class="d-flex flex-column">
+                    <select class="form-control" id="quickAccessDropdown" name="quickAccessDropdown" onchange="loadTrendChart();">
+                        <option value="#quickAccess" selected disabled>Quick Access</option>
+                        <option value="CAD">USD->CAD</option>
+                        <option value="INR">USD->INR</option>
+                        <option value="EUR">USD->EUR</option>
+                        <!-- Add more options as needed -->
+                    </select>
+                </div>
+            </li>
            {% if user.is_authenticated %}
           <li>
                 <label for="servicesDropdown" class="nav-link"></label>
@@ -119,5 +131,87 @@
     <div class="content">
         {% block content %}{% endblock %}
     </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Wait for the DOM to fully load before running the script
+        loadTrendChart();
+    });
+
+    function loadTrendChart() {
+        var selectedCurrencyOption = document.getElementById("quickAccessDropdown");
+
+        // Check if an option is selected
+        if (!selectedCurrencyOption || selectedCurrencyOption.selectedIndex === -1) {
+            console.error("No currency selected");
+            return;
+        }
+
+        // Get the selected option and its data-currency attribute
+        var selectedOption = selectedCurrencyOption.options[selectedCurrencyOption.selectedIndex];
+
+        // Extract the currency value from the option text (e.g., "USD->CAD")
+        var optionText = selectedOption.textContent;
+        var selectedCurrency = optionText.split("->")[1]?.trim();
+
+        // Check if the selected option has the data-currency attribute
+        if (!selectedCurrency) {
+            console.error("Unexpected currency format:", selectedOption);
+            return;
+        }
+
+        console.log("Selected Currency:", selectedCurrency);
+
+        // Get today's date and format it as "YYYY-MM-DD"
+        var today = new Date();
+        var todayFormatted = today.toISOString().split('T')[0];
+
+        // Calculate start date as today's date minus 365 days
+        var startDate = new Date(today);
+        startDate.setDate(startDate.getDate() - 10);
+        var startDateFormatted = startDate.toISOString().split('T')[0];
+
+        // Calculate end date as today's date minus one day
+        var endDate = new Date(today);
+        endDate.setDate(endDate.getDate() - 1);
+        var endDateFormatted = endDate.toISOString().split('T')[0];
+
+        // Get the CSRF token input
+        var csrftokenInput = document.getElementsByName('csrfmiddlewaretoken')[0];
+
+        // Check if the CSRF token input is found
+        if (!csrftokenInput || !csrftokenInput.value) {
+            console.error("CSRF token not found or empty");
+            return;
+        }
+
+        var csrftoken = csrftokenInput.value;
+
+        // Call the timeseries_view endpoint with the selected currency, start date, and end date
+        // var url = "/timeseries_view/";
+        var url = "{% url 'timeseries_view' %}";
+        var formData = new FormData();
+        formData.append("currencyYouWant", selectedCurrency);
+        formData.append("fromDate", startDateFormatted);
+        formData.append("toDate", endDateFormatted);
+
+        fetch(url, {
+            method: "POST",
+            body: formData,
+            headers: {
+                'X-CSRFToken': csrftoken
+            }
+        })
+
+        // window.location.href = url;
+}
+</script>
+
+
+
+
+
+
+
 </body>
 </html>
