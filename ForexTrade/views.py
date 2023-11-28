@@ -29,6 +29,7 @@ from .models import Address
 def home_view(request):
     return render(request, 'home.html')
 
+
 # Create your views here.
 
 
@@ -158,6 +159,7 @@ def offers(request):
 def contact(request):
     return render(request, 'contactUs.html')
 
+
 # End by Abhirup Ranjan - 110091866
 
 class MyAccountView(View):
@@ -177,8 +179,6 @@ class MyAccountView(View):
 
         return render(request, 'my_account.html', {'user_address': user_address})
     # End by Abhirup Ranjan - 110091866
-
-
 
 
 # Below code added by Rohit Kumar - 110088741 : To fetch exchange rate from API
@@ -205,7 +205,6 @@ def get_exchange_rate(request):
     if response.status_code == 200:
         data = response.json()
         converted_amount = data['rates'].get(currency_you_want, 0)
-
         return JsonResponse({'success': True, 'convertedAmount': converted_amount})
     else:
         # Handle the API error
@@ -217,6 +216,8 @@ def get_exchange_rate(request):
 def trend(request):
     return render(request, 'trend.html')
 
+def qtrend(request):
+    return render(request, 'qtrend.html')
 
 def timeseries_view(request):
     # API endpoint
@@ -234,11 +235,16 @@ def timeseries_view(request):
         'accuracy': accuracy
     }
 
+    print("start_date:", start_date)
+    print("end_date:", end_date)
+    print("currency:", currency)
+    print("accuracy:", accuracy)
+
     # Make the API call
     response = requests.get(api_url, params=params)
 
     try:
-    # Check if the API call was successful
+        # Check if the API call was successful
         if response.status_code == 200:
             rates_data = response.json()["rates"]
 
@@ -268,6 +274,7 @@ def timeseries_view(request):
             buffer.close()
 
             context = {'plot_data': plot_data}
+
             return render(request, 'trend_chart.html', context)
 
     except Exception as e:
@@ -282,6 +289,7 @@ def get_paypal_api():
         "client_secret": settings.PAYPAL_SECRET,
     })
     return paypalrestsdk
+
 
 # Below code added by Rohit Kumar - 110088741 : To fetch the payment details
 
@@ -300,7 +308,6 @@ def payment_view(request):
     # paypal_secret = settings.PAYPAL_SECRET
 
     paypal_api = get_paypal_api()
-
 
     # Create a PayPal payment
     payment = paypal_api.Payment({
@@ -342,11 +349,13 @@ def payment_view(request):
 def payment_success(request):
     return render(request, 'payment_success.html')
 
+
 @login_required
 def Payment_History(request):
     payments = Payment.objects.all()
     context = {'payments': payments}
     return render(request, 'Payment_History.html', context)
+
 
 # End by Rohit Kumar - 110088741
 
@@ -380,5 +389,8 @@ def save_changes(request):
 
     # Use reverse to get the URL based on the name of the URL pattern
     return render(request, 'my_account.html', {'user_address': user_address})
+
+
+
 
 # End by Abhirup Ranjan - 110091866
