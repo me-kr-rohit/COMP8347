@@ -110,25 +110,29 @@
         margin-left: auto;
         justify-content: center;
     }
+
 </style>
 
 <script>
         // Function to toggle the visibility of the card based on the selected option
-        function toggleCardVisibility() {
-        var selectedOption = document.getElementById("servicesDropdown").value;
-        var card = document.getElementById("orderCard");
-        var defaultMessage = document.getElementById("defaultMessage");
+       function toggleCardVisibility() {
+    var selectedOption = document.getElementById("servicesDropdown").value;
+    var card = document.getElementById("orderCard");
+    var defaultMessage = document.getElementById("defaultMessage");
 
-
-        if (selectedOption === "#exchangeRate") {
-            card.style.display = "block";
-            defaultMessage.style.display = "none";
-        }
-        else {
-            // Redirect to trend.html
-            window.location.href = {% url 'trend' %};
-        }
+    if (selectedOption === "#exchangeRate") {
+        card.style.display = "block";
+        defaultMessage.style.display = "none";
+    } else if (selectedOption === "#currentTrend") {
+        // Handle currentTrend case
+    } else if (selectedOption === "#chartPattern") {
+        // Handle chartPattern case
+    } else {
+        // Redirect to trend.html for other cases
+        window.location.href = "{% url 'trend' %}";
     }
+}
+
         function updateConvertedAmount(convertedAmount) {
             // Display the converted amount section
             let convertedAmountSection = document.getElementById("convertedAmountSection");

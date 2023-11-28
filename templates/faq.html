@@ -1,88 +1,35 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Frequently Asked Questions</title>
-    <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            margin: 0;
-            background-color: #f4f4f4;
-        }
-        ol {
-            list-style-type: none;
-            counter-reset: faq-counter;
-            padding: 0;
-        }
-
-        li.faq-item {
-            counter-increment: faq-counter;
-            margin-bottom: 20px;
-        }
-
-        h1 {
-            display: inline;
-            font-size: x-large;
-            color: navy; /* Set text color to blue */
-            margin: 0; /* Remove default margin for <h1> */
-        }
-
-        li.faq-item::before {
-            content: counter(faq-counter) ". ";
-            font-size: small;
-            font-weight: bold;
-            margin-right: 5px;
-            color: navy; /* Set ordered number color to blue */
-        }
-        p {
-            font-size: small;
-        }
-        header {
-            text-align: center;
-             border-radius: 10px; /* Add border-radius for rounded corners */
-            background-color: #343a40;
-            color: white;
-            padding: 10px;
-        }
-         h2 {
-            color: white;
-
-        }
-         footer {
-
-    color: black;
-    text-align: center;
-    padding: 1rem 0;
-
-}
-
-    </style>
+    <link rel="stylesheet" href="{% static 'css/shared-styles.css' %}">
 </head>
 <body>
     <header>
         <h2>Frequently Asked Questions</h2>
     </header>
-    <ol>
-        <li class="faq-item">
+    <div class="faq-card">
+        <div class="faq-item">
             <h1>Is there any mark-up on the currency conversion rate shown?</h1>
             <p>No</p>
-        </li>
-        <li class="faq-item">
-            <h1>What currencies are available for exchange ?</h1>
+        </div>
+        <div class="faq-item">
+            <h1>What currencies are available for exchange?</h1>
             <p>All major or exotic currencies are available on the website. List of currencies can be referred to through our full rate card.</p>
-        </li>
-        <li class="faq-item">
+        </div>
+        <div class="faq-item">
             <h1>Is there any minimum order value for placing currency notes order?</h1>
             <p>Yes, the order value must be at a minimum of CAD 150.</p>
-        </li>
-        <li class="faq-item">
-            <h1>Can I buy 2 or more currencies in single order?</h1>
+        </div>
+        <div class="faq-item">
+            <h1>Can I buy 2 or more currencies in a single order?</h1>
             <p>No</p>
-        </li>
-    </ol>
+        </div>
+    </div>
 </body>
 </html>
 {% endblock %}

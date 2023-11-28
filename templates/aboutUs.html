@@ -1,50 +1,13 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>About Us</title>
-    <style>
-        body {
 
-             font-family: 'Roboto', sans-serif;
-            margin: 0;
-            background-color: #f4f4f4;
-        }
-
-        header {
-            background-color: navy;
-            color: white;
-            text-align: center;
-            padding: 20px;
-        }
-
-        main {
-            padding: 20px;
-        }
-
-        h1 {
-            display: inline;
-            font-size: x-large;
-            color: navy; /* Set text color to blue */
-            margin: 0; /* Remove default margin for <h1> */
-        }
-
-        p {
-            line-height: 1.5;
-        }
-        header {
-            text-align: center;
-           background-color: #343a40;
-            border-radius: 10px; /* Add border-radius for rounded corners */
-            color: white;
-            padding: 10px;
-        }
-         h2 {
-            color: white;
-        }
-    </style>
+  <link rel="stylesheet" href="{% static 'css/shared-styles.css' %}">
 </head>
 <body>
      <header>

@@ -9,6 +9,49 @@
       <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
       <link rel="stylesheet" href="{% static 'css/custom_styles.css' %}">
+  <style>
+.dropbtn {
+  background-color: #333;
+  color: white;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+    font-weight: bold;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+     margin: 0;
+  padding: 0;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown:hover .dropbtn {
+  background-color: #333;
+}
+</style>
 
 
   </head>
@@ -17,21 +60,37 @@
         <ul>
              <li><a class="logo-btn" href="{% url 'home' %}"><img class="logo" src="{% static '/images/logo.png' %}" alt="Logo"></a></li>
         </ul>
-     <ul class="navbar-nav2">
+     <ul class="navbar-nav2 center-horizontal">
             <li><a class="nav-link" href="{% url 'about' %}">About Us</a></li>
             <li><a class="nav-link" href="#">Quick Access</a></li>
            {% if user.is_authenticated %}
-          <li>
-                <label for="servicesDropdown" class="nav-link"></label>
-                <div class="d-flex flex-column">
-                    <select class="form-control" id="servicesDropdown" name="servicesDropdown" onchange="toggleCardVisibility();">
-                        <option value="#selectService" selected disabled>Select a Service</option>
-                        <option value="#exchangeRate">Exchange Rate</option>
-                        <option value="#currentTrend">Current Trends</option>
-                        <option value="#chartPattern">Charts Patterns</option>
-                        <!-- Add more options as needed -->
-                    </select>
-                </div>
+            <li class="center-horizontal">
+{#                <label for="servicesDropdown" class="nav-link"></label>#}
+
+
+<div class="dropdown" id="servicesDropdown">
+    <button class="dropbtn">Select a Service</button>
+    <div class="dropdown-content">
+        <a href="#" onclick="toggleCardVisibility('#selectService');">Select a Service</a>
+        <a href="#exchangeRate" onclick="toggleCardVisibility('#exchangeRate');">Exchange Rate</a>
+        <a href="#currentTrend" onclick="toggleCardVisibility('#currentTrend');">Current Trends</a>
+        <a href="#chartPattern" onclick="toggleCardVisibility('#chartPattern');">Charts Patterns</a>
+        <!-- Add more options as needed -->
+    </div>
+</div>
+
+
+
+
+{#                <div class="d-flex flex-column">#}
+{#                    <select class="form-control" id="servicesDropdown" name="servicesDropdown" onchange="toggleCardVisibility();">#}
+{#                        <option value="#selectService" selected disabled>Select a Service</option>#}
+{#                        <option value="#exchangeRate">Exchange Rate</option>#}
+{#                        <option value="#currentTrend">Current Trends</option>#}
+{#                        <option value="#chartPattern">Charts Patterns</option>#}
+{#                        <!-- Add more options as needed -->#}
+{#                    </select>#}
+{#                </div>#}
             </li>
            {% endif %}
            <li><a class="nav-link" href="{% url 'offers' %}">Offers</a></li>
@@ -54,7 +113,7 @@
             <!-- Add other navigation links as needed -->
         </ul>
     </nav>
-    <div class="content">{% block content %}{% endblock %}</div>
+    <div class="content center-horizontal">{% block content %}{% endblock %}</div>
 
     <footer >
       <p>&copy; 2023 Forex - All Rights Reserved</p>

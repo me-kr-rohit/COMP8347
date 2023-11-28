@@ -6,76 +6,39 @@
 <head>
     <meta charset="UTF-8">
     <title>Offers</title>
-
-    <style>
-        body {
-           font-family: 'Roboto', sans-serif;
-            margin: 0;
-            background-color: #f4f4f4;
-        }
-
-        .offer-section {
-            width: 25%;
-            float: left;
-            padding: 20px;
-            box-sizing: border-box;
-            text-align: center;
-        }
-
-        .promo-box {
-            border: 2px solid #333;
-            padding: 20px;
-            margin: 10px;
-           background-color: #343a40;
-            color: white; /* Set text color to white */
-        }
-
-        h2 {
-            color: white;
-        }
-
-        p {
-            color: white;
-        }
-        header {
-            text-align: center;
-            border-radius: 10px; /* Add border-radius for rounded corners */
-            background-color: #343a40;
-            color: white;
-            padding: 10px;
-        }
-    </style>
-
+    <link rel="stylesheet" href="{% static 'css/shared-styles.css' %}">
 </head>
 <body>
-<header>
+    <header>
         <h2>Current Offers</h2>
     </header>
-    <div class="offer-section">
-        <div class="promo-box">
-            <h2>5% Discount</h2>
-            <p>Use PROMOCODE: DISCOUNT5</p>
+    <div class="offer-card">
+        <div class="offer-section">
+            <div class="promo-box">
+                <h2>5% Discount</h2>
+                <p>Use PROMOCODE: DISCOUNT5</p>
+            </div>
         </div>
-    </div>
 
-    <div class="offer-section">
-        <div class="promo-box">
-            <h2>10% Discount</h2>
-            <p>Use PROMOCODE: DISCOUNT10</p>
+        <div class="offer-section">
+            <div class="promo-box">
+                <h2>10% Discount</h2>
+                <p>Use PROMOCODE: DISCOUNT10</p>
+            </div>
         </div>
-    </div>
 
-    <div class="offer-section">
-        <div class="promo-box">
-            <h2>15% Discount</h2>
-            <p>Use PROMOCODE: DISCOUNT15</p>
+        <div class="offer-section">
+            <div class="promo-box">
+                <h2>15% Discount</h2>
+                <p>Use PROMOCODE: DISCOUNT15</p>
+            </div>
         </div>
-    </div>
 
-    <div class="offer-section">
-        <div class="promo-box">
-            <h2>20% Discount</h2>
-            <p>Use PROMOCODE: DISCOUNT20</p>
+        <div class="offer-section">
+            <div class="promo-box">
+                <h2>20% Discount</h2>
+                <p>Use PROMOCODE: DISCOUNT20</p>
+            </div>
         </div>
     </div>
 </body>

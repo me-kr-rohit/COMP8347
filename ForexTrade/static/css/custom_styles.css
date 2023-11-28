@@ -73,3 +73,85 @@ footer {
     text-align: center;
     padding: 1rem 0;
 }
+.center-horizontal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.navbar-nav2.center-horizontal {
+  flex: 1; /* This makes the navbar take up the available space horizontally */
+}
+
+.content.center-horizontal {
+  margin: 0 auto;
+  max-width: 800px; /* Adjust the max-width as needed */
+}
+.center-horizontal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.navbar-nav2.center-horizontal {
+  flex: 1; /* This makes the navbar take up the available space horizontally */
+}
+
+.content.center-horizontal {
+  margin: 0 auto;
+  max-width: 800px; /* Adjust the max-width as needed */
+}
+/* Adjust the styles for the servicesDropdown if necessary */
+        /* shared-styles.css */
+
+/* ... (existing styles) ... */
+
+/* Additional styles for the Login card */
+.login-card {
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 8px;
+}
+
+.login-container {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.login-form {
+  margin-top: 20px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+     margin-bottom: 10px;
+    margin-right: 12px;
+}
+
+.btn {
+  background-color: #3498db;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.links {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.links a {
+  color: #3498db;
+  text-decoration: none;
+}
+
