@@ -347,3 +347,11 @@ def account_settings(request):
 
     return render(request, 'my_account.html', context=context)
 
+
+def user_profile(request):
+    # Assuming you have a user object
+    if request.user.is_authenticated:
+        user_profile = UserProfile.objects.get(user=request.user)
+    else:
+        user_profile = None
+    return {'user_profile': user_profile}

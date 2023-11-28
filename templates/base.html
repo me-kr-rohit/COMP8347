@@ -7,9 +7,10 @@
   <title>{% block title %}Default Title{% endblock %}</title>
 
       <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/custom_styles.css' %}">
 
-      <link rel="stylesheet" href="{% static 'css/custom_styles.css' %}">
   <style>
+
 .dropbtn {
   background-color: #333;
   color: white;
@@ -51,6 +52,9 @@
 .dropdown:hover .dropbtn {
   background-color: #333;
 }
+.hidden {
+            display: none;
+        }
 </style>
 
 
@@ -68,13 +72,14 @@
 {#                <label for="servicesDropdown" class="nav-link"></label>#}
 
 
-<div class="dropdown" id="servicesDropdown">
+<div class="dropdown">
     <button class="dropbtn">Select a Service</button>
     <div class="dropdown-content">
         <a href="#" onclick="toggleCardVisibility('#selectService');">Select a Service</a>
-        <a href="#exchangeRate" onclick="toggleCardVisibility('#exchangeRate');">Exchange Rate</a>
-        <a href="#currentTrend" onclick="toggleCardVisibility('#currentTrend');">Current Trends</a>
-        <a href="#chartPattern" onclick="toggleCardVisibility('#chartPattern');">Charts Patterns</a>
+       <!-- base.html -->
+        <a href="#" onclick="toggleCardVisibility('#exchangeRateCard');">Exchange Rate</a>
+       <a href="#" onclick="toggleCardVisibility('#currentTrendCard');">Current Trend</a>
+        <a href="#" onclick="toggleCardVisibility('#chartPatternCard');">Charts Patterns</a>
         <!-- Add more options as needed -->
     </div>
 </div>
@@ -98,9 +103,15 @@
             <li><a class="nav-link" href="{% url 'contactUs' %}">Contact Us</a></li>
      </ul>
         <ul>
+
+
             {% if user.is_authenticated %}
                 <a class="my_account" href="{% url 'account_settings' %}">
-                        <img class="user-logo" src="{% static '/images/user.png' %}" alt="myAccountLogo">
+                         {% if user_profile.id_or_photo %}
+        <img class="user-logo" src="{{ user_profile.id_or_photo.url }}" alt="myAccountLogo">
+    {% else %}
+        <img class="user-logo" src="{% static '/images/user.png' %}" alt="myAccountLogo">
+    {% endif %}
                     </a>
 
               <li class="logout-btn">
@@ -121,3 +132,31 @@
 
 </body>
 </html>
+
+<!-- base.html -->
+<script>
+    function toggleCardVisibility(cardId) {
+    // Hide all cards first
+    var cards = document.querySelectorAll('.card');
+    cards.forEach(function(card) {
+        card.style.display = 'none';
+    });
+
+    // If the selected card is 'currentTrendCard', show it directly
+    if (cardId === '#currentTrendCard') {
+        var currentTrendCard = document.querySelector(cardId);
+        if (currentTrendCard) {
+            currentTrendCard.style.display = 'block';
+        }
+    } else {
+        // If the selected card is not 'currentTrendCard', show it
+        var card = document.querySelector(cardId);
+        if (card) {
+            card.style.display = 'block';
+        }
+    }
+}
+
+</script>
+
+

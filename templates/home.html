@@ -114,24 +114,6 @@
 </style>
 
 <script>
-        // Function to toggle the visibility of the card based on the selected option
-       function toggleCardVisibility() {
-    var selectedOption = document.getElementById("servicesDropdown").value;
-    var card = document.getElementById("orderCard");
-    var defaultMessage = document.getElementById("defaultMessage");
-
-    if (selectedOption === "#exchangeRate") {
-        card.style.display = "block";
-        defaultMessage.style.display = "none";
-    } else if (selectedOption === "#currentTrend") {
-        // Handle currentTrend case
-    } else if (selectedOption === "#chartPattern") {
-        // Handle chartPattern case
-    } else {
-        // Redirect to trend.html for other cases
-        window.location.href = "{% url 'trend' %}";
-    }
-}
 
         function updateConvertedAmount(convertedAmount) {
             // Display the converted amount section
@@ -181,7 +163,7 @@
     </script>
 {% if user.is_authenticated %}
 <div class="container mt-4">
-    <div class="card" id="orderCard" style="display: none;">
+    <div class="card" id="exchangeRateCard" style="display: none;">
         <div class="card-body">
             <h2 class="card-title">Place Your Order</h2>
             <form method="post" action="{% url 'payment_view' %}">
@@ -222,10 +204,12 @@
         </div>
     </div>
 </div>
+
 {% else %}
 <!-- Display "Place the Order" section when the user is not authenticated -->
 <div class="container mt-4">
-
+<div class="card" style="display: block;">
+        <div class="card-body">
             <h2 class="card-title">Exchange Currency</h2>
             <form method="post">
                 {% csrf_token %}
@@ -272,6 +256,8 @@
                 </div>
             </form>
 
+  </div>
+    </div>
 </div>
 
 {% endif %}

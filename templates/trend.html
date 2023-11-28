@@ -119,9 +119,9 @@
 </head>
 
 {% if user.is_authenticated %}
-<body>
+
     <div class="container">
-        <div class="card" id="orderCard" style="display: block;">
+        <div class="card" id="currentTrendCard" style="display: none;">
             <div class="card-body">
                 <h2 class="card-title">Past Trend</h2>
                 <form method="post" action="{% url 'timeseries_view' %}">
@@ -160,7 +160,11 @@
             </div>
         </div>
     </div>
-</body>
+
 {% endif %}
 </html>
 {% endblock %}
+<script>
+        // Call the toggleCardVisibility function with the ID of the card you want to show
+        toggleCardVisibility('#currentTrendCard');
+    </script>

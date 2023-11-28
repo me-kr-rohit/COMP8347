@@ -56,7 +56,9 @@
         }
 
     .user-logo {
-      max-width: 35px;
+        border-radius: 50%;
+        width: 40px; /* Adjust the size as needed */
+        height: 40px; /* Adjust the size as needed */
     }
 .content {
     flex: 1;
