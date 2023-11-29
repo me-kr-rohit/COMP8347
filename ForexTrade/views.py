@@ -414,7 +414,7 @@ def save_changes(request):
         user_address.city = city
         user_address.save()
         print("Address saved successfully!")
-        messages.success(request, 'Address saved successfully!')
+        # messages.success(request, 'Address saved successfully!')
         return redirect('account_settings')  # Adjust 'my_account' to your actual profile page URL
 
     # Retrieve the updated address information
