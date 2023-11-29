@@ -1,136 +1,138 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{% block title %}Default Title{% endblock %}</title>
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>{% block title %}Default Title{% endblock %}</title>
 
-      <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/custom_styles.css' %}">
 
-  <style>
+    <style>
 
-.dropbtn {
-  background-color: #333;
-  color: white;
-  font-size: 16px;
-  border: none;
-  cursor: pointer;
-    font-weight: bold;
-}
+        .dropbtn {
+            background-color: #333;
+            color: white;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
 
-.dropdown {
-  position: relative;
-  display: inline-block;
-     margin: 0;
-  padding: 0;
-}
+        .dropdown {
+            position: relative;
+            display: inline-block;
+            margin: 0;
+            padding: 0;
+        }
 
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #f9f9f9;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
-}
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
 
-.dropdown-content a {
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-}
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
 
-.dropdown-content a:hover {background-color: #f1f1f1}
+        .dropdown-content a:hover {
+            background-color: #f1f1f1
+        }
 
-.dropdown:hover .dropdown-content {
-  display: block;
-}
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
 
-.dropdown:hover .dropbtn {
-  background-color: #333;
-}
-.hidden {
+        .dropdown:hover .dropbtn {
+            background-color: #333;
+        }
+
+        .hidden {
             display: none;
         }
-</style>
+    </style>
 
 
-  </head>
+</head>
 <body>
-    <nav>
-        <ul>
-             <li><a class="logo-btn" href="{% url 'home' %}"><img class="logo" src="{% static '/images/logo.png' %}" alt="Logo"></a></li>
-        </ul>
-     <ul class="navbar-nav2 center-horizontal">
-            <li><a class="nav-link" href="{% url 'about' %}">About Us</a></li>
-            <!-- Start by Abhirup Ranjan - 110091866 -->
-             <li><a class="nav-link" href="{% url 'qtrend' %}">Quick Access</a></li>
-            <!-- End by Abhirup Ranjan - 110091866 -->
-           {% if user.is_authenticated %}
+<nav>
+    <ul>
+        <li><a class="logo-btn" href="{% url 'home' %}"><img class="logo" src="{% static '/images/logo.png' %}"
+                                                             alt="Logo"></a></li>
+    </ul>
+    <ul class="navbar-nav2 center-horizontal">
+        <li><a class="nav-link" href="{% url 'about' %}">About Us</a></li>
+        <!-- Start by Abhirup Ranjan - 110091866 -->
+        <li><a class="nav-link" href="{% url 'qtrend' %}">Quick Access</a></li>
+        <!-- End by Abhirup Ranjan - 110091866 -->
+        {% if user.is_authenticated %}
             <li class="center-horizontal">
-{#                <label for="servicesDropdown" class="nav-link"></label>#}
+                {#                <label for="servicesDropdown" class="nav-link"></label>#}
 
 
-<div class="dropdown">
-    <button class="dropbtn">Select a Service</button>
-    <div class="dropdown-content">
-        <a href="#" onclick="toggleCardVisibility('#selectService');">Select a Service</a>
-       <!-- base.html -->
-        <a href="#" onclick="toggleCardVisibility('#exchangeRateCard');">Exchange Rate</a>
-       <a href="#" onclick="toggleCardVisibility('#currentTrendCard');">Current Trend</a>
-        <a href="#" onclick="toggleCardVisibility('#chartPatternCard');">Charts Patterns</a>
-        <!-- Add more options as needed -->
-    </div>
-</div>
+                <div class="dropdown">
+                    <button class="dropbtn">Select a Service</button>
+                    <div class="dropdown-content">
+                        <a href="#" onclick="toggleCardVisibility('#selectService');">Select a Service</a>
+                        <!-- base.html -->
+                        <a href="#" onclick="toggleCardVisibility('#exchangeRateCard');">Exchange Rate</a>
+                        <a href="#trend" onclick="toggleCardVisibility('#currentTrendCard');">Current Trend</a>
+                        <!--a href="#" onclick="toggleCardVisibility('#chartPatternCard');">Charts Patterns</a-->
+                        <!-- Add more options as needed -->
+                    </div>
+                </div>
 
 
-
-
-{#                <div class="d-flex flex-column">#}
-{#                    <select class="form-control" id="servicesDropdown" name="servicesDropdown" onchange="toggleCardVisibility();">#}
-{#                        <option value="#selectService" selected disabled>Select a Service</option>#}
-{#                        <option value="#exchangeRate">Exchange Rate</option>#}
-{#                        <option value="#currentTrend">Current Trends</option>#}
-{#                        <option value="#chartPattern">Charts Patterns</option>#}
-{#                        <!-- Add more options as needed -->#}
-{#                    </select>#}
-{#                </div>#}
+                {#                <div class="d-flex flex-column">#}
+                {#                    <select class="form-control" id="servicesDropdown" name="servicesDropdown" onchange="toggleCardVisibility();">#}
+                {#                        <option value="#selectService" selected disabled>Select a Service</option>#}
+                {#                        <option value="#exchangeRate">Exchange Rate</option>#}
+                {#                        <option value="#currentTrend">Current Trends</option>#}
+                {#                        <option value="#chartPattern">Charts Patterns</option>#}
+                {#                        <!-- Add more options as needed -->#}
+                {#                    </select>#}
+                {#                </div>#}
             </li>
-           {% endif %}
-           <li><a class="nav-link" href="{% url 'offers' %}">Offers</a></li>
-            <li><a class="nav-link" href="{% url 'faq' %}">FAQs</a></li>
-            <li><a class="nav-link" href="{% url 'contactUs' %}">Contact Us</a></li>
-     </ul>
-        <ul>
+        {% endif %}
+        <li><a class="nav-link" href="{% url 'offers' %}">Offers</a></li>
+        <li><a class="nav-link" href="{% url 'faq' %}">FAQs</a></li>
+        <li><a class="nav-link" href="{% url 'contactUs' %}">Contact Us</a></li>
+    </ul>
+    <ul>
 
 
-            {% if user.is_authenticated %}
-                <a class="my_account" href="{% url 'account_settings' %}">
-                         {% if user_profile.id_or_photo %}
-        <img class="user-logo" src="{{ user_profile.id_or_photo.url }}" alt="myAccountLogo">
-    {% else %}
-        <img class="user-logo" src="{% static '/images/user.png' %}" alt="myAccountLogo">
-    {% endif %}
-                    </a>
+        {% if user.is_authenticated %}
+            <a class="my_account" href="{% url 'account_settings' %}">
+                {% if user_profile.id_or_photo %}
+                    <img class="user-logo" src="{{ user_profile.id_or_photo.url }}" alt="myAccountLogo">
+                {% else %}
+                    <img class="user-logo" src="{% static '/images/user.png' %}" alt="myAccountLogo">
+                {% endif %}
+            </a>
 
-              <li class="logout-btn">
-                    <a href="{% url 'logout' %}">Logout</a>
-                </li>
-            {% else %}
-                <li><a href="{% url 'register' %}">Register</a></li>
-                <li><a href="{% url 'login' %}">Login</a></li>
-            {% endif %}
-            <!-- Add other navigation links as needed -->
-        </ul>
-    </nav>
-    <div class="content center-horizontal">{% block content %}{% endblock %}</div>
+            <li class="logout-btn">
+                <a href="{% url 'logout' %}">Logout</a>
+            </li>
+        {% else %}
+            <li><a href="{% url 'register' %}">Register</a></li>
+            <li><a href="{% url 'login' %}">Login</a></li>
+        {% endif %}
+        <!-- Add other navigation links as needed -->
+    </ul>
+</nav>
+<div class="content center-horizontal">{% block content %}{% endblock %}</div>
 
-    <footer >
-      <p>&copy; 2023 Forex - All Rights Reserved</p>
-    </footer>
+<footer>
+    <p>&copy; 2023 Forex - All Rights Reserved</p>
+</footer>
 
 </body>
 </html>
@@ -138,26 +140,26 @@
 <!-- base.html -->
 <script>
     function toggleCardVisibility(cardId) {
-    // Hide all cards first
-    var cards = document.querySelectorAll('.card');
-    cards.forEach(function(card) {
-        card.style.display = 'none';
-    });
+        // Hide all cards first
+        var cards = document.querySelectorAll('.card');
+        cards.forEach(function (card) {
+            card.style.display = 'none';
+        });
 
-    // If the selected card is 'currentTrendCard', show it directly
-    if (cardId === '#currentTrendCard') {
-        var currentTrendCard = document.querySelector(cardId);
-        if (currentTrendCard) {
-            currentTrendCard.style.display = 'block';
-        }
-    } else {
-        // If the selected card is not 'currentTrendCard', show it
-        var card = document.querySelector(cardId);
-        if (card) {
-            card.style.display = 'block';
+        // If the selected card is 'currentTrendCard', show it directly
+        if (cardId === '#currentTrendCard') {
+            var currentTrendCard = document.querySelector(cardId);
+            if (currentTrendCard) {
+                currentTrendCard.style.display = 'block';
+            }
+        } else {
+            // If the selected card is not 'currentTrendCard', show it
+            var card = document.querySelector(cardId);
+            if (card) {
+                card.style.display = 'block';
+            }
         }
     }
-}
 
 </script>
 
