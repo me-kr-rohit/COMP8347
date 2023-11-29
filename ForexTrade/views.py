@@ -382,6 +382,7 @@ def user_profile(request):
 # Start by Abhirup Ranjan - 110091866
 @login_required
 def save_changes(request):
+
     if request.method == 'POST':
         # Get user information
         user = request.user
@@ -392,7 +393,10 @@ def save_changes(request):
         province = request.POST.get('province', '')
         city = request.POST.get('city', '')
 
-        print(f"Address: {address}, Pin Code: {pin_code}, Province: {province}, City: {city}")
+        # Validate form data (you can create a form for this purpose)
+        if not address or not pin_code or not province or not city:
+            messages.error(request, 'Please fill out all fields.')
+            return redirect('my_account')  # Adjust 'my_account' to your actual profile page URL
 
         # Check if the user already has an address, if yes, update it, else create a new one
         user_address, created = Address.objects.get_or_create(user=user)
@@ -402,12 +406,16 @@ def save_changes(request):
         user_address.city = city
         user_address.save()
 
-        print("Address saved successfully!")
+        messages.success(request, 'Address saved successfully!')
+        return redirect('account_settings')  # Adjust 'my_account' to your actual profile page URL
 
     # Retrieve the updated address information
-    user_address = Address.objects.get(user=request.user)
-
-    # Use reverse to get the URL based on the name of the URL pattern
+    try:
+        user_address = Address.objects.get(user=request.user)
+        print(f"User Address: {user_address}")
+    except Address.DoesNotExist:
+        user_address = None
+    print(f"User Address after query: {user_address}")
     return render(request, 'my_account.html', {'user_address': user_address})
 
 # End by Abhirup Ranjan - 110091866
