@@ -356,13 +356,14 @@ def payment_success(request):
 @login_required
 def Payment_History(request):
     payments = Payment.objects.all()
-    context = {'payments': payments}
-    return render(request, 'Payment_History.html', context)
+    return render(request, 'my_account.html', {'payments': payments})
 # End by Rohit Kumar - 110088741
 @login_required
 def account_settings(request):
     # Get the UserProfile associated with the logged-in user
     user_profile = get_object_or_404(UserProfile, user=request.user)
+    # payments = Payment.objects.all()
+    payments = Payment.objects.filter(user=request.user)
     # Start by Abhirup Ranjan - 110091866
     try:
         # Retrieve the user's address information
@@ -372,6 +373,7 @@ def account_settings(request):
         user_address = None
     context = {
         'user_profile': user_profile,
+        'payments': payments,
         'user_address': user_address,
     }
     # End by Abhirup Ranjan - 110091866
@@ -389,7 +391,6 @@ def user_profile(request):
 # Start by Abhirup Ranjan - 110091866
 @login_required
 def save_changes(request):
-
     if request.method == 'POST':
         # Get user information
         user = request.user
