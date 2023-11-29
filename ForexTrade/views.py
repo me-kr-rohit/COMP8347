@@ -1,5 +1,3 @@
-from django.urls import reverse
-
 import paypalrestsdk
 from django.contrib.auth.decorators import login_required
 from paypalrestsdk import Payment
@@ -166,20 +164,16 @@ class MyAccountView(View):
 
     def get(self, request, *args, **kwargs):
         # Your logic for the My Account page
-        return render(request, 'my_account.html')  # Replace 'my_account.html' with your actual template
-
-    # Start by Abhirup Ranjan - 110091866
-    @login_required
-    def my_account(request):
-        # Retrieve the user's address information
+        # Start by Abhirup Ranjan - 110091866
         try:
+            # Retrieve the user's address information
             user_address = Address.objects.get(user=request.user)
         except Address.DoesNotExist:
+            # If the user doesn't have an address, provide empty data
             user_address = None
-
         return render(request, 'my_account.html', {'user_address': user_address})
-    # End by Abhirup Ranjan - 110091866
-
+        # End by Abhirup Ranjan - 110091866
+        # return render(request, 'my_account.html')  # Replace 'my_account.html' with your actual template
 
 # Below code added by Rohit Kumar - 110088741 : To fetch exchange rate from API
 def get_exchange_rate(request):
@@ -216,8 +210,11 @@ def get_exchange_rate(request):
 def trend(request):
     return render(request, 'trend.html')
 
+
+# Start by Abhirup Ranjan - 110091866
 def qtrend(request):
     return render(request, 'qtrend.html')
+ # End by Abhirup Ranjan - 110091866
 
 def timeseries_view(request):
     # API endpoint
@@ -355,9 +352,8 @@ def Payment_History(request):
     payments = Payment.objects.all()
     context = {'payments': payments}
     return render(request, 'Payment_History.html', context)
-
-
 # End by Rohit Kumar - 110088741
+
 
 # Start by Abhirup Ranjan - 110091866
 @login_required
@@ -389,8 +385,5 @@ def save_changes(request):
 
     # Use reverse to get the URL based on the name of the URL pattern
     return render(request, 'my_account.html', {'user_address': user_address})
-
-
-
 
 # End by Abhirup Ranjan - 110091866

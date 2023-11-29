@@ -82,7 +82,9 @@
         </ul>
      <ul class="navbar-nav2">
             <li><a class="nav-link" href="{% url 'about' %}">About Us</a></li>
+            <!-- Start by Abhirup Ranjan - 110091866 -->
              <li><a class="nav-link" href="{% url 'qtrend' %}">Quick Access</a></li>
+            <!-- End by Abhirup Ranjan - 110091866 -->
            {% if user.is_authenticated %}
           <li>
                 <label for="servicesDropdown" class="nav-link"></label>
@@ -91,7 +93,6 @@
                         <option value="#selectService" selected disabled>Select a Service</option>
                         <option value="#exchangeRate">Exchange Rate</option>
                         <option value="#currentTrend">Current Trends</option>
-                        <!-- Add more options as needed -->
                     </select>
                 </div>
             </li>
