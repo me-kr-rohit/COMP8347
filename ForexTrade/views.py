@@ -363,11 +363,18 @@ def Payment_History(request):
 def account_settings(request):
     # Get the UserProfile associated with the logged-in user
     user_profile = get_object_or_404(UserProfile, user=request.user)
-
+    # Start by Abhirup Ranjan - 110091866
+    try:
+        # Retrieve the user's address information
+        user_address = Address.objects.get(user=request.user)
+    except Address.DoesNotExist:
+        # If the user doesn't have an address, provide empty data
+        user_address = None
     context = {
         'user_profile': user_profile,
+        'user_address': user_address,
     }
-
+    # End by Abhirup Ranjan - 110091866
     return render(request, 'my_account.html', context=context)
 
 
@@ -408,6 +415,6 @@ def save_changes(request):
     user_address = Address.objects.get(user=request.user)
 
     # Use reverse to get the URL based on the name of the URL pattern
-    return render(request, 'my_account.html', {'user_address': user_address})
+    return render(request, 'aboutUs.html', {'user_address': user_address})
 
 # End by Abhirup Ranjan - 110091866
