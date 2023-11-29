@@ -23,6 +23,8 @@ from django.urls import path
 from ForexTrade import views
 from ForexTrade.views import RegisterView, login_view, home_view, get_exchange_rate, trend, \
     timeseries_view, Payment_History, account_settings
+from ForexTrade.views import RegisterView, login_view, home_view, MyAccountView, get_exchange_rate, trend, \
+    timeseries_view, Payment_History, save_changes, qtrend
 from ForexTrade.views import payment_view, payment_success
 
 urlpatterns = [
@@ -43,5 +45,7 @@ urlpatterns = [
     path('payment_view/', views.payment_view, name='payment_view'),
     path('payment/success/', views.payment_success, name='payment_success'),
     path('Payment_History/', Payment_History, name='Payment_History'),
+    path('save_changes/', save_changes, name='save_changes'),
+    path('qtrend/', views.qtrend, name='qtrend'),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

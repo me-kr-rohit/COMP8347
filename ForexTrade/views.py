@@ -27,6 +27,7 @@ from COMP8347 import settings
 from ForexTrade.models import UserProfile, Membership, Payment
 # views.py
 from django.shortcuts import render
+from .models import Address
 
 
 def home_view(request):
@@ -146,7 +147,7 @@ class LogoutView(View):
         return redirect('home')  # Redirect to the home page after successful logout
 
 
-# Abhirup Start
+# Start by Abhirup Ranjan - 110091866
 def about(request):
     return render(request, 'aboutUs.html')
 
@@ -163,8 +164,22 @@ def contact(request):
     return render(request, 'contactUs.html')
 
 
-# Abhirup End
+# End by Abhirup Ranjan - 110091866
 
+class MyAccountView(View):
+
+    def get(self, request, *args, **kwargs):
+        # Your logic for the My Account page
+        # Start by Abhirup Ranjan - 110091866
+        try:
+            # Retrieve the user's address information
+            user_address = Address.objects.get(user=request.user)
+        except Address.DoesNotExist:
+            # If the user doesn't have an address, provide empty data
+            user_address = None
+        return render(request, 'my_account.html', {'user_address': user_address})
+        # End by Abhirup Ranjan - 110091866
+        # return render(request, 'my_account.html')  # Replace 'my_account.html' with your actual template
 
 # Below code added by Rohit Kumar - 110088741 : To fetch exchange rate from API
 def get_exchange_rate(request):
@@ -190,7 +205,6 @@ def get_exchange_rate(request):
     if response.status_code == 200:
         data = response.json()
         converted_amount = data['rates'].get(currency_you_want, 0)
-
         return JsonResponse({'success': True, 'convertedAmount': converted_amount})
     else:
         # Handle the API error
@@ -202,6 +216,11 @@ def get_exchange_rate(request):
 def trend(request):
     return render(request, 'trend.html')
 
+
+# Start by Abhirup Ranjan - 110091866
+def qtrend(request):
+    return render(request, 'qtrend.html')
+ # End by Abhirup Ranjan - 110091866
 
 def timeseries_view(request):
     # API endpoint
@@ -218,6 +237,11 @@ def timeseries_view(request):
         'currencies': currency,
         'accuracy': accuracy
     }
+
+    print("start_date:", start_date)
+    print("end_date:", end_date)
+    print("currency:", currency)
+    print("accuracy:", accuracy)
 
     # Make the API call
     response = requests.get(api_url, params=params)
@@ -253,6 +277,7 @@ def timeseries_view(request):
             buffer.close()
 
             context = {'plot_data': plot_data}
+
             return render(request, 'trend_chart.html', context)
 
     except Exception as e:
@@ -333,8 +358,6 @@ def Payment_History(request):
     payments = Payment.objects.all()
     context = {'payments': payments}
     return render(request, 'Payment_History.html', context)
-
-
 # End by Rohit Kumar - 110088741
 @login_required
 def account_settings(request):
@@ -355,3 +378,36 @@ def user_profile(request):
     else:
         user_profile = None
     return {'user_profile': user_profile}
+
+# Start by Abhirup Ranjan - 110091866
+@login_required
+def save_changes(request):
+    if request.method == 'POST':
+        # Get user information
+        user = request.user
+
+        # Get address information from the form
+        address = request.POST.get('address', '')
+        pin_code = request.POST.get('pin_code', '')
+        province = request.POST.get('province', '')
+        city = request.POST.get('city', '')
+
+        print(f"Address: {address}, Pin Code: {pin_code}, Province: {province}, City: {city}")
+
+        # Check if the user already has an address, if yes, update it, else create a new one
+        user_address, created = Address.objects.get_or_create(user=user)
+        user_address.address = address
+        user_address.pin_code = pin_code
+        user_address.province = province
+        user_address.city = city
+        user_address.save()
+
+        print("Address saved successfully!")
+
+    # Retrieve the updated address information
+    user_address = Address.objects.get(user=request.user)
+
+    # Use reverse to get the URL based on the name of the URL pattern
+    return render(request, 'my_account.html', {'user_address': user_address})
+
+# End by Abhirup Ranjan - 110091866

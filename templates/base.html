@@ -66,7 +66,9 @@
         </ul>
      <ul class="navbar-nav2 center-horizontal">
             <li><a class="nav-link" href="{% url 'about' %}">About Us</a></li>
-            <li><a class="nav-link" href="#">Quick Access</a></li>
+            <!-- Start by Abhirup Ranjan - 110091866 -->
+             <li><a class="nav-link" href="{% url 'qtrend' %}">Quick Access</a></li>
+            <!-- End by Abhirup Ranjan - 110091866 -->
            {% if user.is_authenticated %}
             <li class="center-horizontal">
 {#                <label for="servicesDropdown" class="nav-link"></label>#}

@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 
+
 # Create your models here.
 
 class TimestampedModel(models.Model):
@@ -50,4 +51,18 @@ class PaymentHistory(models.Model):
     transaction_type = models.CharField(max_length=10)  # 'buy' or 'sell'
     transaction_date = models.DateTimeField(auto_now_add=True)
 
+
 # End by Rohit Kumar - 110088741
+
+# Start by Abhirup Ranjan - 110091866
+class Address(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    address = models.CharField(max_length=255)
+    pin_code = models.CharField(max_length=10)
+    province = models.CharField(max_length=100)
+    city = models.CharField(max_length=100)
+
+    def __str__(self):
+        return f"Address for {self.user.username}"
+
+# End by Abhirup Ranjan - 110091866
