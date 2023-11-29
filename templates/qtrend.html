@@ -131,7 +131,7 @@
     </script>
 </head>
 
-{% if user.is_authenticated %}
+
 <body>
     <div class="container">
         <div class="card" id="orderCard" style="display: block;">
@@ -162,32 +162,36 @@
     </div>
 
 <script>
-        // Dynamically set start date and end date
-        document.addEventListener('DOMContentLoaded', function () {
-            var today = new Date();
+    // Dynamically set start date and end date
+    document.addEventListener('DOMContentLoaded', function () {
+        var today = new Date();
 
-            // Calculate start date as today's date minus 365 days
-            var startDate = new Date(today);
-            startDate.setDate(startDate.getDate() - 365);
+        // Calculate start date as today's date minus 365 days
+        var startDate = new Date(today);
+        startDate.setDate(startDate.getDate() - 364);
 
-            // Format dates as "YYYY-MM-DD"
-            var startDateFormatted = formatDate(startDate);
-            var todayFormatted = formatDate(today);
+        // Calculate end date as today's date minus 1 day
+        var endDate = new Date(today);
+        endDate.setDate(endDate.getDate() - 1);
 
-            // Set values to the hidden fields
-            document.getElementById('fromDate').value = startDateFormatted;
-            document.getElementById('toDate').value = todayFormatted;
-        });
+        // Format dates as "YYYY-MM-DD"
+        var startDateFormatted = formatDate(startDate);
+        var endDateFormatted = formatDate(endDate);
 
-        // Function to format date as "YYYY-MM-DD"
-        function formatDate(date) {
-            var dd = String(date.getDate()).padStart(2, '0');
-            var mm = String(date.getMonth() + 1).padStart(2, '0');
-            var yyyy = date.getFullYear();
-            return yyyy + '-' + mm + '-' + dd;
-        }
-    </script>
+        // Set values to the hidden fields
+        document.getElementById('fromDate').value = startDateFormatted;
+        document.getElementById('toDate').value = endDateFormatted;
+    });
+
+    // Function to format date as "YYYY-MM-DD"
+    function formatDate(date) {
+        var dd = String(date.getDate()).padStart(2, '0');
+        var mm = String(date.getMonth() + 1).padStart(2, '0');
+        var yyyy = date.getFullYear();
+        return yyyy + '-' + mm + '-' + dd;
+    }
+</script>
+
 </body>
-{% endif %}
 </html>
 {% endblock %}
